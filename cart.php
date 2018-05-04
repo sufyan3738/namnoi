@@ -1,7 +1,6 @@
 <?php
 session_start();
-?>
-<?php
+
 require 'connect.php';
 ?>
 
@@ -83,17 +82,19 @@ require 'connect.php';
 						<li><a href="#"><i class="fa fa-envelope-o"></i> email@email.com</a></li>
 						<li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
 					</ul>
-					<ul class="header-links pull-right">
+
+				<!-- ปุ่ม login logout -->
+				<ul class="header-links pull-right">
 					<?php
-					if (!isset($_SESSION["type"])) {
-						?>
+				if (!isset($_SESSION["type"])) {
+					?>
 						<li>
 						<a href="#" data-toggle="modal" data-target="#myModal">
 						<i class="fa fa-user-o"></i> Login</a>
 						</li>
 						<?php
 
-					} else {
+				} else {
 					$c_id = $_SESSION['c_id'];
 
 					$sql = "SELECT * FROM customer WHERE c_id=$c_id";
@@ -115,9 +116,11 @@ require 'connect.php';
 						logout</a>
 						</li>
 					<?php
-					}
-					?>
-					</ul>
+				}
+				?>
+				</ul>
+				<!-- /ปุ่ม login logout -->
+
 				</div>
 			</div>
 			<!-- /TOP HEADER -->
@@ -159,7 +162,7 @@ require 'connect.php';
 						<div class="col-md-3">
 							<div class="header-logo">
 								<a href="index.php" class="logo">
-									<img src="./img/logo.png" alt="">
+									<img src="./img/log.png" alt="">
 								</a>
 							</div>
 						</div>
@@ -167,17 +170,6 @@ require 'connect.php';
 
 						<!-- SEARCH BAR -->
 						<div class="col-md-6">
-							<div class="header-search">
-								<form>
-									<select class="input-select">
-										<option value="0">All Categories</option>
-										<option value="1">Category 01</option>
-										<option value="1">Category 02</option>
-									</select>
-									<input class="input" placeholder="Search here">
-									<button class="search-btn">Search</button>
-								</form>
-							</div>
 						</div>
 						<!-- /SEARCH BAR -->
 
@@ -185,67 +177,75 @@ require 'connect.php';
 						<div class="col-md-3 clearfix">
 							<div class="header-ctn">
 
-								<!-- Cart -->
+							<!-- Cart -->
 							<div class="dropdown">
 								<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
 									<i class="fa fa-shopping-cart"></i>
 									<span>Your Cart</span>
-									<div class="qty">3</div>
+									<!-- <div class="qty">3</div> -->
 								</a>
 								<div class="cart-dropdown">
 									<div class="cart-list">
 
 									<?php
-									if(!isset($_SESSION["intLine"]))
-									{
-										$_SESSION["intLine"]=null;
-										$_SESSION["strp_id"]=null;
-										echo "Cart Empty";
-									}
-									?>
+								if (!isset($_SESSION["intLine"])) {
+									$_SESSION["intLine"] = null;
+									$_SESSION["strp_id"] = null;
+									echo "Cart Empty";
+								}
+								?>
 									<?php
-									$Total = 0;
-									$SumTotal = 0;
+								$Total = 0;
+								$SumTotal = 0;
 
-									for($i=0;$i<=(int)$_SESSION["intLine"];$i++)
-									{
-										if($_SESSION["strp_id"][$i] != "")
-										{
-											$strSQL = "SELECT * FROM product WHERE p_id = '".$_SESSION["strp_id"][$i]."' ";
-											$objQuery = mysqli_query($con,$strSQL);
-											$objResult = $objResult = mysqli_fetch_array($objQuery,MYSQLI_ASSOC);
-											$Total = $_SESSION["strQty"][$i] * $objResult["p_price"];
-											$SumTotal = $SumTotal + $Total;
+								for ($i = 0; $i <= (int)$_SESSION["intLine"]; $i++) {
+									if ($_SESSION["strp_id"][$i] != "") {
+										$strSQL = "SELECT * FROM product WHERE p_id = '" . $_SESSION["strp_id"][$i] . "' ";
+										$objQuery = mysqli_query($con, $strSQL);
+										$objResult = $objResult = mysqli_fetch_array($objQuery, MYSQLI_ASSOC);
+										$Total = $_SESSION["strQty"][$i] * $objResult["p_price"];
+										$SumTotal = $SumTotal + $Total;
 										?>
 										<div class="product-widget">
 											<div class="product-img">
-												<img src="./img/<?=$objResult["p_pictures"];?>" alt="">
+												<img src="./img/<?= $objResult["p_pictures"]; ?>" alt="">
 											</div>
 											<div class="product-body">
 												<h3 class="product-name">
-													<a href="product.php?p_id=<?php echo $objResult["p_id"];?>"><?=$objResult["p_name"];?></a>
+													<a href="product.php?p_id=<?php echo $objResult["p_id"]; ?>"><?= $objResult["p_name"]; ?></a>
 												</h3>
 												<h4 class="product-price">
-													<span class="qty"><?=$_SESSION["strQty"][$i];?>x</span>฿<?=number_format($Total,2);?></h4>
+													<span class="qty"><?= $_SESSION["strQty"][$i]; ?>x</span>฿<?= number_format($Total, 2); ?></h4>
 											</div>
-											<button class="delete" onclick="window.location.href = 'delete.php?Line=<?=$i;?>'">
+											<button class="delete" onclick="window.location.href = 'delete.php?Line=<?= $i; ?>'">
 												<i class="fa fa-close"></i>
 											</button>
 										</div>
 										<?php
-										}
-									}
-									?>
+
+								}
+							}
+							?>
 
 									</div>
 									<div class="cart-summary">
-										<h5>SUBTOTAL: ฿<?php echo number_format($SumTotal,2);?></h5>
+										<h5>SUBTOTAL: ฿<?php echo number_format($SumTotal, 2); ?></h5>
 									</div>
 									<div class="cart-btns">
 										<a href="show.php">View Cart</a>
-										<a href="checkout.php">Checkout
-											<i class="fa fa-arrow-circle-right"></i>
-										</a>
+
+										<!-- ถ้าไม่มีสินค้า ดำเนินการชำระเงินไม่ได้ -->
+										<?php
+										if($SumTotal > 0){
+										?>
+											<a href="checkout.php">Checkout
+												<i class="fa fa-arrow-circle-right"></i>
+											</a>
+										<?php
+											}
+										?>
+										<!-- ถ้าไม่มีสินค้า ดำเนินการชำระเงินไม่ได้ -->
+
 									</div>
 								</div>
 							</div>
@@ -336,16 +336,16 @@ require 'connect.php';
 										$SumTotal = $SumTotal + $Total;
 									?>
 									<tbody>
-																	<tr>
-																		<td><?=$objResult["p_name"];?></td>
-																		<td><?=$objResult["p_color"];?></td>
-																		<td><?=$objResult["p_size"];?></td>
-																		<td><?=$objResult["p_price"];?></td>
-																		<td><?=$_SESSION["strQty"][$i];?> <a href="order.php?p_id=<?php echo $objResult["p_id"];?>"> เพิ่ม</a></td>
-																		<td><?=number_format($Total,2);?></td>
-																		<td><a href="delete.php?Line=<?=$i;?>">x</a></td>
-																	</tr>
-																</tbody>
+										<tr>
+											<td><?=$objResult["p_name"];?></td>
+											<td><?=$objResult["p_color"];?></td>
+											<td><?=$objResult["p_size"];?></td>
+											<td><?=$objResult["p_price"];?></td>
+											<td><?=$_SESSION["strQty"][$i];?> <a href="order.php?p_id=<?php echo $objResult["p_id"];?>"> เพิ่ม</a></td>
+											<td><?=number_format($Total,2);?></td>
+											<td><a href="delete.php?Line=<?=$i;?>">x</a></td>
+										</tr>
+									</tbody>
 									<?php
 									}
 								}
@@ -361,9 +361,22 @@ require 'connect.php';
 								</tbody>
 							</table>
 						</div>
+						
+						<!-- ถ้าไม่มีสินค้า ดำเนินการชำระเงินไม่ได้ -->
 						<div class="container">
-							<button class="columnt" onclick="window.location.href = 'checkout.php'">ดำเนินการชำระเงิน</button>
+						<?php
+						if($SumTotal > 0){
+						?>
+							| <button class="columnt" onclick="window.location.href = 'checkout.php'">ดำเนินการชำระเงิน</button>
+						<?php
+							}
+						?>
+						<?php
+						mysqli_close($con);
+						?>
 						</div>
+						<!-- ถ้าไม่มีสินค้า ดำเนินการชำระเงินไม่ได้ -->
+
 						<br>
 						<br>
 					</div>

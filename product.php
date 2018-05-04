@@ -65,10 +65,12 @@ $result2 = mysqli_fetch_array($query2, MYSQLI_ASSOC);
 						<li><a href="#"><i class="fa fa-envelope-o"></i> email@email.com</a></li>
 						<li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
 					</ul>
-					<ul class="header-links pull-right">
+
+				<!-- ปุ่ม login logout -->
+				<ul class="header-links pull-right">
 					<?php
-					if (!isset($_SESSION["type"])) {
-						?>
+				if (!isset($_SESSION["type"])) {
+					?>
 						<li>
 						<a href="#" data-toggle="modal" data-target="#myModal">
 						<i class="fa fa-user-o"></i> Login</a>
@@ -97,9 +99,11 @@ $result2 = mysqli_fetch_array($query2, MYSQLI_ASSOC);
 						logout</a>
 						</li>
 					<?php
-			}
-			?>
-					</ul>
+				}
+				?>
+				</ul>
+				<!-- /ปุ่ม login logout -->
+
 				</div>
 			</div>
 			<!-- /TOP HEADER -->
@@ -141,7 +145,7 @@ $result2 = mysqli_fetch_array($query2, MYSQLI_ASSOC);
 						<div class="col-md-3">
 							<div class="header-logo">
 								<a href="index.php" class="logo">
-									<img src="./img/logo.png" alt="">
+									<img src="./img/log.png" alt="">
 								</a>
 							</div>
 						</div>
@@ -149,17 +153,6 @@ $result2 = mysqli_fetch_array($query2, MYSQLI_ASSOC);
 
 						<!-- SEARCH BAR -->
 						<div class="col-md-6">
-							<div class="header-search">
-								<form>
-									<select class="input-select">
-										<option value="0">All Categories</option>
-										<option value="1">Category 01</option>
-										<option value="1">Category 02</option>
-									</select>
-									<input class="input" placeholder="Search here">
-									<button class="search-btn">Search</button>
-								</form>
-							</div>
 						</div>
 						<!-- /SEARCH BAR -->
 
@@ -167,48 +160,79 @@ $result2 = mysqli_fetch_array($query2, MYSQLI_ASSOC);
 						<div class="col-md-3 clearfix">
 							<div class="header-ctn">
 
-								<!-- Cart -->
-								<div class="dropdown">
-									<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-										<i class="fa fa-shopping-cart"></i>
-										<span>Your Cart</span>
-										<div class="qty">3</div>
-									</a>
-									<div class="cart-dropdown">
-										<div class="cart-list">
-											<div class="product-widget">
-												<div class="product-img">
-													<img src="img/<?php echo $result2['p_pictures']; ?>" alt="">
-												</div>
-												<div class="product-body">
-													<h3 class="product-name"><a href="#"><?php echo $result2["p_name"];?></a></h3>
-													<h4 class="product-price"><span class="qty">1x</span>฿<?php echo $result2['p_price']; ?></h4>
-												</div>
-												<button class="delete"><i class="fa fa-close"></i></button>
-											</div>
+							<!-- Cart -->
+							<div class="dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+									<i class="fa fa-shopping-cart"></i>
+									<span>Your Cart</span>
+									<!-- <div class="qty">3</div> -->
+								</a>
+								<div class="cart-dropdown">
+									<div class="cart-list">
 
-											<div class="product-widget">
-												<div class="product-img">
-													<img src="./img/product02.png" alt="">
-												</div>
-												<div class="product-body">
-													<h3 class="product-name"><a href="#">product name goes here</a></h3>
-													<h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
-												</div>
-												<button class="delete"><i class="fa fa-close"></i></button>
+									<?php
+								if (!isset($_SESSION["intLine"])) {
+									$_SESSION["intLine"] = null;
+									$_SESSION["strp_id"] = null;
+									echo "Cart Empty";
+								}
+								?>
+									<?php
+								$Total = 0;
+								$SumTotal = 0;
+
+								for ($i = 0; $i <= (int)$_SESSION["intLine"]; $i++) {
+									if ($_SESSION["strp_id"][$i] != "") {
+										$strSQL = "SELECT * FROM product WHERE p_id = '" . $_SESSION["strp_id"][$i] . "' ";
+										$objQuery = mysqli_query($con, $strSQL);
+										$objResult = $objResult = mysqli_fetch_array($objQuery, MYSQLI_ASSOC);
+										$Total = $_SESSION["strQty"][$i] * $objResult["p_price"];
+										$SumTotal = $SumTotal + $Total;
+										?>
+										<div class="product-widget">
+											<div class="product-img">
+												<img src="./img/<?= $objResult["p_pictures"]; ?>" alt="">
 											</div>
+											<div class="product-body">
+												<h3 class="product-name">
+													<a href="product.php?p_id=<?php echo $objResult["p_id"]; ?>"><?= $objResult["p_name"]; ?></a>
+												</h3>
+												<h4 class="product-price">
+													<span class="qty"><?= $_SESSION["strQty"][$i]; ?>x</span>฿<?= number_format($Total, 2); ?></h4>
+											</div>
+											<button class="delete" onclick="window.location.href = 'delete.php?Line=<?= $i; ?>'">
+												<i class="fa fa-close"></i>
+											</button>
 										</div>
-										<div class="cart-summary">
-											<small>3 Item(s) selected</small>
-											<h5>SUBTOTAL: $2940.00</h5>
-										</div>
-										<div class="cart-btns">
-											<a href="#">View Cart</a>
-											<a href="#">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
-										</div>
+										<?php
+
+								}
+							}
+							?>
+
+									</div>
+									<div class="cart-summary">
+										<h5>SUBTOTAL: ฿<?php echo number_format($SumTotal, 2); ?></h5>
+									</div>
+									<div class="cart-btns">
+										<a href="show.php">View Cart</a>
+
+										<!-- ถ้าไม่มีสินค้า ดำเนินการชำระเงินไม่ได้ -->
+										<?php
+										if($SumTotal > 0){
+										?>
+											<a href="checkout.php">Checkout
+												<i class="fa fa-arrow-circle-right"></i>
+											</a>
+										<?php
+											}
+										?>
+										<!-- ถ้าไม่มีสินค้า ดำเนินการชำระเงินไม่ได้ -->
+
 									</div>
 								</div>
-								<!-- /Cart -->
+							</div>
+							<!-- /Cart -->
 
 								<!-- Menu Toogle -->
 								<div class="menu-toggle">
@@ -321,22 +345,22 @@ $result2 = mysqli_fetch_array($query2, MYSQLI_ASSOC);
 										<span class="qty-down">-</span>
 									</div>
 								</div>
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+								<button class="add-to-cart-btn" onclick="window.location.href = 'order.php?p_id=<?php echo $result2["p_id"]; ?>'">
+								<i class="fa fa-shopping-cart"></i> add to cart</button>
 							</div>
 
 							<ul class="product-links">
 								<li>Category:</li>
-								<li><a href="#">Headphones</a></li>
-								<li><a href="#">Accessories</a></li>
+								<li><a href="#"><?php echo $result2['t_name']; ?></a></li>
 							</ul>
 
-							<ul class="product-links">
+							<!-- <ul class="product-links">
 								<li>Share:</li>
 								<li><a href="#"><i class="fa fa-facebook"></i></a></li>
 								<li><a href="#"><i class="fa fa-twitter"></i></a></li>
 								<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
 								<li><a href="#"><i class="fa fa-envelope"></i></a></li>
-							</ul>
+							</ul> -->
 
 						</div>
 					</div>
@@ -347,9 +371,8 @@ $result2 = mysqli_fetch_array($query2, MYSQLI_ASSOC);
 						<div id="product-tab">
 							<!-- product tab nav -->
 							<ul class="tab-nav">
-								<li class="active"><a data-toggle="tab" href="#tab1">Description</a></li>
-								<li><a data-toggle="tab" href="#tab2">Details</a></li>
-								<li><a data-toggle="tab" href="#tab3">Reviews (3)</a></li>
+								<li class="active"><a data-toggle="tab" href="#tab1">Details</a></li>
+								<li><a data-toggle="tab" href="#tab2">Description</a></li>
 							</ul>
 							<!-- /product tab nav -->
 
@@ -375,182 +398,6 @@ $result2 = mysqli_fetch_array($query2, MYSQLI_ASSOC);
 								</div>
 								<!-- /tab2  -->
 
-								<!-- tab3  -->
-								<div id="tab3" class="tab-pane fade in">
-									<div class="row">
-										<!-- Rating -->
-										<div class="col-md-3">
-											<div id="rating">
-												<div class="rating-avg">
-													<span>4.5</span>
-													<div class="rating-stars">
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star-o"></i>
-													</div>
-												</div>
-												<ul class="rating">
-													<li>
-														<div class="rating-stars">
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-														</div>
-														<div class="rating-progress">
-															<div style="width: 80%;"></div>
-														</div>
-														<span class="sum">3</span>
-													</li>
-													<li>
-														<div class="rating-stars">
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star-o"></i>
-														</div>
-														<div class="rating-progress">
-															<div style="width: 60%;"></div>
-														</div>
-														<span class="sum">2</span>
-													</li>
-													<li>
-														<div class="rating-stars">
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star-o"></i>
-															<i class="fa fa-star-o"></i>
-														</div>
-														<div class="rating-progress">
-															<div></div>
-														</div>
-														<span class="sum">0</span>
-													</li>
-													<li>
-														<div class="rating-stars">
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star-o"></i>
-															<i class="fa fa-star-o"></i>
-															<i class="fa fa-star-o"></i>
-														</div>
-														<div class="rating-progress">
-															<div></div>
-														</div>
-														<span class="sum">0</span>
-													</li>
-													<li>
-														<div class="rating-stars">
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star-o"></i>
-															<i class="fa fa-star-o"></i>
-															<i class="fa fa-star-o"></i>
-															<i class="fa fa-star-o"></i>
-														</div>
-														<div class="rating-progress">
-															<div></div>
-														</div>
-														<span class="sum">0</span>
-													</li>
-												</ul>
-											</div>
-										</div>
-										<!-- /Rating -->
-
-										<!-- Reviews -->
-										<div class="col-md-6">
-											<div id="reviews">
-												<ul class="reviews">
-													<li>
-														<div class="review-heading">
-															<h5 class="name">John</h5>
-															<p class="date">27 DEC 2018, 8:0 PM</p>
-															<div class="review-rating">
-																<i class="fa fa-star"></i>
-																<i class="fa fa-star"></i>
-																<i class="fa fa-star"></i>
-																<i class="fa fa-star"></i>
-																<i class="fa fa-star-o empty"></i>
-															</div>
-														</div>
-														<div class="review-body">
-															<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-														</div>
-													</li>
-													<li>
-														<div class="review-heading">
-															<h5 class="name">John</h5>
-															<p class="date">27 DEC 2018, 8:0 PM</p>
-															<div class="review-rating">
-																<i class="fa fa-star"></i>
-																<i class="fa fa-star"></i>
-																<i class="fa fa-star"></i>
-																<i class="fa fa-star"></i>
-																<i class="fa fa-star-o empty"></i>
-															</div>
-														</div>
-														<div class="review-body">
-															<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-														</div>
-													</li>
-													<li>
-														<div class="review-heading">
-															<h5 class="name">John</h5>
-															<p class="date">27 DEC 2018, 8:0 PM</p>
-															<div class="review-rating">
-																<i class="fa fa-star"></i>
-																<i class="fa fa-star"></i>
-																<i class="fa fa-star"></i>
-																<i class="fa fa-star"></i>
-																<i class="fa fa-star-o empty"></i>
-															</div>
-														</div>
-														<div class="review-body">
-															<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-														</div>
-													</li>
-												</ul>
-												<ul class="reviews-pagination">
-													<li class="active">1</li>
-													<li><a href="#">2</a></li>
-													<li><a href="#">3</a></li>
-													<li><a href="#">4</a></li>
-													<li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-												</ul>
-											</div>
-										</div>
-										<!-- /Reviews -->
-
-										<!-- Review Form -->
-										<div class="col-md-3">
-											<div id="review-form">
-												<form class="review-form">
-													<input class="input" type="text" placeholder="Your Name">
-													<input class="input" type="email" placeholder="Your Email">
-													<textarea class="input" placeholder="Your Review"></textarea>
-													<div class="input-rating">
-														<span>Your Rating: </span>
-														<div class="stars">
-															<input id="star5" name="rating" value="5" type="radio"><label for="star5"></label>
-															<input id="star4" name="rating" value="4" type="radio"><label for="star4"></label>
-															<input id="star3" name="rating" value="3" type="radio"><label for="star3"></label>
-															<input id="star2" name="rating" value="2" type="radio"><label for="star2"></label>
-															<input id="star1" name="rating" value="1" type="radio"><label for="star1"></label>
-														</div>
-													</div>
-													<button class="primary-btn">Submit</button>
-												</form>
-											</div>
-										</div>
-										<!-- /Review Form -->
-									</div>
-								</div>
-								<!-- /tab3  -->
 							</div>
 							<!-- /product tab content  -->
 						</div>
@@ -572,37 +419,9 @@ $result2 = mysqli_fetch_array($query2, MYSQLI_ASSOC);
 
 					<div class="col-md-12">
 						<div class="section-title text-center">
-							<h3 class="title">Related Products</h3>
+							<h3 class="title">วิดีโอสาธิต</h3>
 						</div>
 					</div>
-
-					<!-- product -->
-					<div class="col-md-3 col-xs-6">
-						<div class="product">
-							<div class="product-img">
-								<img src="./img/product01.png" alt="">
-								<div class="product-label">
-									<span class="sale">-30%</span>
-								</div>
-							</div>
-							<div class="product-body">
-								<p class="product-category">Category</p>
-								<h3 class="product-name"><a href="#">product name goes here</a></h3>
-								<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								<div class="product-rating">
-								</div>
-								<div class="product-btns">
-									<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-									<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-									<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-								</div>
-							</div>
-							<div class="add-to-cart">
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-							</div>
-						</div>
-					</div>
-					<!-- /product -->
 
 					<!-- product -->
 					<div class="col-md-3 col-xs-6">
@@ -623,63 +442,6 @@ $result2 = mysqli_fetch_array($query2, MYSQLI_ASSOC);
 									<i class="fa fa-star"></i>
 									<i class="fa fa-star"></i>
 									<i class="fa fa-star"></i>
-								</div>
-								<div class="product-btns">
-									<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-									<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-									<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-								</div>
-							</div>
-							<div class="add-to-cart">
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-							</div>
-						</div>
-					</div>
-					<!-- /product -->
-
-					<div class="clearfix visible-sm visible-xs"></div>
-
-					<!-- product -->
-					<div class="col-md-3 col-xs-6">
-						<div class="product">
-							<div class="product-img">
-								<img src="./img/product03.png" alt="">
-							</div>
-							<div class="product-body">
-								<p class="product-category">Category</p>
-								<h3 class="product-name"><a href="#">product name goes here</a></h3>
-								<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								<div class="product-rating">
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star-o"></i>
-								</div>
-								<div class="product-btns">
-									<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-									<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-									<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-								</div>
-							</div>
-							<div class="add-to-cart">
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-							</div>
-						</div>
-					</div>
-					<!-- /product -->
-
-					<!-- product -->
-					<div class="col-md-3 col-xs-6">
-						<div class="product">
-							<div class="product-img">
-								<img src="./img/product04.png" alt="">
-							</div>
-							<div class="product-body">
-								<p class="product-category">Category</p>
-								<h3 class="product-name"><a href="#">product name goes here</a></h3>
-								<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								<div class="product-rating">
 								</div>
 								<div class="product-btns">
 									<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
