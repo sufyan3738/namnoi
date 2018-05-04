@@ -215,7 +215,7 @@ $result2 = mysqli_fetch_array($query2, MYSQLI_ASSOC);
 										<h5>SUBTOTAL: ฿<?php echo number_format($SumTotal, 2); ?></h5>
 									</div>
 									<div class="cart-btns">
-										<a href="show.php">View Cart</a>
+										<a href="cart.php">View Cart</a>
 
 										<!-- ถ้าไม่มีสินค้า ดำเนินการชำระเงินไม่ได้ -->
 										<?php

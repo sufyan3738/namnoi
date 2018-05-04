@@ -188,10 +188,13 @@ require 'connect.php';
 									<div class="cart-list">
 
 									<?php
-								if (!isset($_SESSION["intLine"])) {
-									$_SESSION["intLine"] = null;
-									$_SESSION["strp_id"] = null;
-									echo "Cart Empty";
+								if(!isset($_SESSION["intLine"]))
+								{
+									echo "<script>";
+									echo "alert(\"ไม่มีสินค้าอยู่ในตะกร้า กรุณาเพิ่มสินค้าลงในตะกร้าก่อนชำระเงิน\");";
+									echo "window.history.back()"; //กลับไปหน้าที่แล้ว
+									echo "</script>";
+									exit();
 								}
 								?>
 									<?php
@@ -232,7 +235,7 @@ require 'connect.php';
 										<h5>SUBTOTAL: ฿<?php echo number_format($SumTotal, 2); ?></h5>
 									</div>
 									<div class="cart-btns">
-										<a href="show.php">View Cart</a>
+										<a href="cart.php">View Cart</a>
 
 										<!-- ถ้าไม่มีสินค้า ดำเนินการชำระเงินไม่ได้ -->
 										<?php
@@ -321,7 +324,7 @@ require 'connect.php';
 										<th>ลบ</th>
 									</tr>
 								 </thead>
-								 <?php
+								<?php
 								$Total = 0;
 								$SumTotal = 0;
 
@@ -341,7 +344,7 @@ require 'connect.php';
 											<td><?=$objResult["p_color"];?></td>
 											<td><?=$objResult["p_size"];?></td>
 											<td><?=$objResult["p_price"];?></td>
-											<td><?=$_SESSION["strQty"][$i];?> <a href="order.php?p_id=<?php echo $objResult["p_id"];?>"> เพิ่ม</a></td>
+											<td><?=$_SESSION["strQty"][$i];?> ชิ้น <a href="order.php?p_id=<?php echo $objResult["p_id"];?>"> เพิ่ม</a></td>
 											<td><?=number_format($Total,2);?></td>
 											<td><a href="delete.php?Line=<?=$i;?>">x</a></td>
 										</tr>
@@ -350,12 +353,31 @@ require 'connect.php';
 									}
 								}
 								?>
+									<tr>
+										<th>วิธีการจัดส่ง</th>
+											<td>
+												<!-- ค่าจัดส่ง -->
+												<form action="checkout.php" method="post">
+												<select class="form-control" id="type" name="e_price">
+												<?php
+												$sql = "SELECT * FROM environment ORDER BY e_id LIMIT 2";
+												$query = mysqli_query($con, $sql);
+												while ($result = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
+												?>
+													<option value="<?php echo $result["e_price"]; ?>"><?php echo $result["e_name"]; ?> <?php echo $result["e_price"]; ?> บาท</option>
+												<?php
+												}
+												?>
+												</select>
+												<!-- /ค่าจัดส่ง -->
+											</td>
+									</tr>
 							</table>
 
 							<table class="columnt table table-bordered">
 								<tbody>
 									<tr>
-										<td><b>ยอดรวม</b></td>
+										<th>ราคารวม</th>
 										<td><?php echo number_format($SumTotal,2);?></td>
 									</tr>
 								</tbody>
@@ -367,7 +389,8 @@ require 'connect.php';
 						<?php
 						if($SumTotal > 0){
 						?>
-							| <button class="columnt" onclick="window.location.href = 'checkout.php'">ดำเนินการชำระเงิน</button>
+							<button class="columnt">ดำเนินการชำระเงิน</button>
+							</form>
 						<?php
 							}
 						?>

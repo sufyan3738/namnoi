@@ -70,6 +70,8 @@ $query2 = mysqli_query($con, $sqlpd)
 						</li>
 						<?php
 
+				} else if($_SESSION["type"] != "C"){
+					header("Location: logout.php");
 				} else {
 					$c_id = $_SESSION['c_id'];
 
@@ -208,7 +210,7 @@ $query2 = mysqli_query($con, $sqlpd)
 										<h5>SUBTOTAL: ฿<?php echo number_format($SumTotal, 2); ?></h5>
 									</div>
 									<div class="cart-btns">
-										<a href="show.php">View Cart</a>
+										<a href="cart.php">View Cart</a>
 
 										<!-- ถ้าไม่มีสินค้า ดำเนินการชำระเงินไม่ได้ -->
 										<?php
