@@ -115,7 +115,7 @@ $_SESSION['e_price'] = $_POST['e_price'];
 						<!-- LOGO -->
 						<div class="col-md-3">
 							<div class="header-logo">
-								<a href="#" class="logo">
+								<a href="index.php" class="logo">
 									<img src="./img/log.png" alt="">
 								</a>
 							</div>
@@ -283,42 +283,43 @@ $_SESSION['e_price'] = $_POST['e_price'];
 						<!-- Billing Details -->
 						<div class="billing-details">
 							<div class="section-title">
-								<h3 class="title">Billing address</h3>
+								<h3 class="title">ที่อยู่ใบใบเสร็จ</h3>
 							</div>
+							<form action="save_checkout.php" method="post">
 							<div class="form-group">
-								<input class="input" type="text" name="first-name" placeholder="First Name">
-							</div>
-							<div class="form-group">
-								<input class="input" type="text" name="last-name" placeholder="Last Name">
+								<input class="input" type="text" name="name" placeholder="ชื่อ-สกุล">
 							</div>
 							<div class="form-group">
 								<input class="input" type="email" name="email" placeholder="Email">
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="address" placeholder="Address">
+								<input class="input" type="text" name="address" placeholder="ที่อยู่">
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="city" placeholder="City">
+								<input class="input" type="text" name="district" placeholder="ตำบล">
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="country" placeholder="Country">
+								<input class="input" type="text" name="amphur" placeholder="อำเภอ">
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="zip-code" placeholder="ZIP Code">
+								<input class="input" type="text" name="province" placeholder="จังหวัด">
 							</div>
 							<div class="form-group">
-								<input class="input" type="tel" name="tel" placeholder="Telephone">
+								<input class="input" type="text" name="zip-code" placeholder="รหัสไปรษณีย์">
+							</div>
+							<div class="form-group">
+								<input class="input" type="tel" name="tel" placeholder="เบอร์โทรศัพท์">
 							</div>
 							<div class="form-group">
 								<div class="input-checkbox">
 									<input type="checkbox" id="create-account">
 									<label for="create-account">
 										<span></span>
-										Create Account?
+										ต้องการสมัครเพื่อเข้าใช้งานในครั้งต่อไปหรือไม่
 									</label>
 									<div class="caption">
-										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
-										<input class="input" type="password" name="password" placeholder="Enter Your Password">
+										<p>ใช้ email ของท่านเป็น ID โปรดกรอกรหัสผ่านในการเข้าใช้งาน</p>
+										<input class="input" type="password" name="password" placeholder="รหัสผ่าน">
 									</div>
 								</div>
 							</div>
@@ -328,38 +329,38 @@ $_SESSION['e_price'] = $_POST['e_price'];
 						<!-- Shiping Details -->
 						<div class="shiping-details">
 							<div class="section-title">
-								<h3 class="title">Shiping address</h3>
+								<h3 class="title">ที่อยู่เพื่อจัดส่งสินค้า</h3>
 							</div>
 							<div class="input-checkbox">
 								<input type="checkbox" id="shiping-address">
 								<label for="shiping-address">
 									<span></span>
-									Ship to a diffrent address?
+									ต้องการจัดส่งไปยังที่อยู่อื่นหรือไม่?
 								</label>
 								<div class="caption">
 									<div class="form-group">
-										<input class="input" type="text" name="first-name" placeholder="First Name">
-									</div>
-									<div class="form-group">
-										<input class="input" type="text" name="last-name" placeholder="Last Name">
+									<input class="input" type="text" name="first-name" placeholder="ชื่อ-สกุล">
 									</div>
 									<div class="form-group">
 										<input class="input" type="email" name="email" placeholder="Email">
 									</div>
 									<div class="form-group">
-										<input class="input" type="text" name="address" placeholder="Address">
+										<input class="input" type="text" name="address" placeholder="ที่อยู่">
 									</div>
 									<div class="form-group">
-										<input class="input" type="text" name="city" placeholder="City">
+										<input class="input" type="text" name="district" placeholder="ตำบล">
 									</div>
 									<div class="form-group">
-										<input class="input" type="text" name="country" placeholder="Country">
+										<input class="input" type="text" name="amphur" placeholder="อำเภอ">
 									</div>
 									<div class="form-group">
-										<input class="input" type="text" name="zip-code" placeholder="ZIP Code">
+										<input class="input" type="text" name="province" placeholder="จังหวัด">
 									</div>
 									<div class="form-group">
-										<input class="input" type="tel" name="tel" placeholder="Telephone">
+										<input class="input" type="text" name="zip-code" placeholder="รหัสไปรษณีย์">
+									</div>
+									<div class="form-group">
+										<input class="input" type="tel" name="tel" placeholder="เบอร์โทรศัพท์">
 									</div>
 								</div>
 							</div>
@@ -414,7 +415,7 @@ $_SESSION['e_price'] = $_POST['e_price'];
 							$querye = mysqli_query($con, $sqle);
 							$resulte = mysqli_fetch_array($querye, MYSQLI_ASSOC)
 							?>
-								<div>วิธีการจัดส่ง <?php echo $resulte["e_name"]; ?></div>
+								<div>วิธีการจัดส่ง <b><?php echo $resulte["e_name"]; ?></b></div>
 								<div>฿<?php echo $_SESSION['e_price']; ?></div>
 							</div>
 
@@ -462,9 +463,11 @@ $_SESSION['e_price'] = $_POST['e_price'];
 								I've read and accept the <a href="#">terms & conditions</a>
 							</label>
 						</div>
-						<a href="#" class="primary-btn order-submit">Place order</a>
+						<button class="primary-btn order-submit">Place order</a>
 					</div>
 					<!-- /Order Details -->
+					</form>
+					
 				</div>
 				<!-- /row -->
 			</div>
@@ -611,6 +614,8 @@ $_SESSION['e_price'] = $_POST['e_price'];
 		<script src="js/nouislider.min.js"></script>
 		<script src="js/jquery.zoom.min.js"></script>
 		<script src="js/main.js"></script>
-
+		<?php
+		mysqli_close($con);
+		?>
 	</body>
 </html>

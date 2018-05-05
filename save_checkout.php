@@ -3,15 +3,41 @@ session_start();
 
 require 'connect.php';
 
+// เพิ่มข้อมูลลงใน customer
+$csql = "INSERT INTO customer (c_name,c_email,c_address,c_district,c_amphur,c_province,c_zip_code,c_phone)
+VALUE ('".$_POST["name"]."','".$_POST["email"]."','".$_POST["address"]."','".$_POST["district"]."','".$_POST["amphur"]."','".$_POST["province"]."','".$_POST["zip-code"]."','".$_POST["tel"]."')";
+$cquery = mysqli_query($con,$csql);
+if(!$cquery)
+{
+echo $con->error;
+exit();
+}
+
+// เพิ่มข้อมูลลงใน identity
+if (!isset($_POST["password"])){
+}else{
+	$cresult = mysqli_fetch_array($cquery,MYSQLI_ASSOC);
+		//เข้ารหัส รหัสผ่าน
+		$password = $_POST['password'];
+    $salt = 'ecom4cluster';
+    $has_password = hash_hmac('sha256', $password, $salt);
+						
+		$isql = "INSERT INTO identity (iden_id,username,password,type) 
+		VALUE ('".$cquery["c_id"]."','".$cquery["email"]."','$has_password','".$cquery["u_type"]."')";
+}
+
+
+
   $Total = 0;
   $SumTotal = 0;
+	$LastTotal = 0;
 
   $strSQL = "
-	INSERT INTO orders (OrderDate,Name,Address,Tel,Email)
+	INSERT INTO order (c_id,date_time,total_price,)
 	VALUES
-	('".date("Y-m-d H:i:s")."','".$_POST["txtName"]."','".$_POST["txtAddress"]."' ,'".$_POST["txtTel"]."','".$_POST["txtEmail"]."') 
+	('".$_SESSION['c_id']."','".date("Y-m-d H:i:s")."','".$_POST["txtName"]."') 
   ";
-  $objQuery = mysqli_query($objCon,$strSQL);
+  $objQuery = mysqli_query($con,$strSQL);
   if(!$objQuery)
   {
 	echo $objCon->error;

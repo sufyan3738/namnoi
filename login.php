@@ -26,7 +26,7 @@
 
 
         if($_SESSION["type"]=="C"){ //ถ้าเป็น admin ให้กระโดดไปหน้า index.php
-          $sql_c = "SELECT * FROM customer WHERE username='$username'";
+          $sql_c = "SELECT * FROM customer WHERE c_id='" . $_SESSION['iden_id'] . "'";
           $query_c = mysqli_query($con,$sql_c);
           if(!$query_c)
           {
@@ -37,7 +37,7 @@
           $_SESSION['c_id'] = $Result_c['c_id'];
             //header("Location: index.php");
             echo "<script>";
-            echo "alert(\"ยินดีต้อนรับ\");";
+            echo "alert(\"เข้าสู่ระบบสำเร็จ\");";
             echo "window.history.back()"; //ไปหน้าเเรกของพนักงาน
             echo "</script>";
 
