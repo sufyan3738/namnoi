@@ -34,5 +34,3 @@ else
 	echo "</script>";
 }
 ?>
-
-<?php /* This code download from www.ThaiCreate.Com */ ?>

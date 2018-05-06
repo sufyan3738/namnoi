@@ -339,28 +339,25 @@ $_SESSION['e_price'] = $_POST['e_price'];
 								</label>
 								<div class="caption">
 									<div class="form-group">
-									<input class="input" type="text" name="first-name" placeholder="ชื่อ-สกุล">
+									<input class="input" type="text" name="dname" placeholder="ชื่อ-สกุล">
 									</div>
 									<div class="form-group">
-										<input class="input" type="email" name="email" placeholder="Email">
+										<input class="input" type="text" name="daddress" placeholder="ที่อยู่">
 									</div>
 									<div class="form-group">
-										<input class="input" type="text" name="address" placeholder="ที่อยู่">
+										<input class="input" type="text" name="ddistrict" placeholder="ตำบล">
 									</div>
 									<div class="form-group">
-										<input class="input" type="text" name="district" placeholder="ตำบล">
+										<input class="input" type="text" name="damphur" placeholder="อำเภอ">
 									</div>
 									<div class="form-group">
-										<input class="input" type="text" name="amphur" placeholder="อำเภอ">
+										<input class="input" type="text" name="dprovince" placeholder="จังหวัด">
 									</div>
 									<div class="form-group">
-										<input class="input" type="text" name="province" placeholder="จังหวัด">
+										<input class="input" type="text" name="dzip-code" placeholder="รหัสไปรษณีย์">
 									</div>
 									<div class="form-group">
-										<input class="input" type="text" name="zip-code" placeholder="รหัสไปรษณีย์">
-									</div>
-									<div class="form-group">
-										<input class="input" type="tel" name="tel" placeholder="เบอร์โทรศัพท์">
+										<input class="input" type="tel" name="dtel" placeholder="เบอร์โทรศัพท์">
 									</div>
 								</div>
 							</div>
@@ -398,6 +395,7 @@ $_SESSION['e_price'] = $_POST['e_price'];
 									$Total = $_SESSION["strQty"][$i] * $objResult["p_price"];
 									$SumTotal = $SumTotal + $Total;
 									$LastTotal = $SumTotal + $_SESSION['e_price'];
+									$_SESSION['lasttotal'] = $LastTotal;
 								?>
 							<div class="order-products">
 								<div class="order-col">
