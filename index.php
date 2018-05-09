@@ -268,15 +268,16 @@ $query2 = mysqli_query($con, $sqlpd)
 		<div class="container">
 			<!-- row -->
 			<div class="row">
+			<h3 class="title">New Product</h3>
 				<!-- shop -->
 				<div class="col-md-4 col-xs-6">
 					<div class="shop">
 						<div class="shop-img">
-							<img src="./img/shop01.png" alt="">
+							<img src="./img/nat2.png" alt="">
 						</div>
 						<div class="shop-body">
-							<h3>Laptop
-								<br>Collection</h3>
+							<h3>ถั่วคั่วทราย
+								</h3>
 							<a href="#" class="cta-btn">Shop now
 								<i class="fa fa-arrow-circle-right"></i>
 							</a>
@@ -289,11 +290,10 @@ $query2 = mysqli_query($con, $sqlpd)
 				<div class="col-md-4 col-xs-6">
 					<div class="shop">
 						<div class="shop-img">
-							<img src="./img/shop03.png" alt="">
+							<img src="./img/basket.png" alt="">
 						</div>
 						<div class="shop-body">
-							<h3>Accessories
-								<br>Collection</h3>
+							<h3>ตะกร้าใยปอ</h3>
 							<a href="#" class="cta-btn">Shop now
 								<i class="fa fa-arrow-circle-right"></i>
 							</a>
@@ -306,11 +306,10 @@ $query2 = mysqli_query($con, $sqlpd)
 				<div class="col-md-4 col-xs-6">
 					<div class="shop">
 						<div class="shop-img">
-							<img src="./img/shop02.png" alt="">
+							<img src="./img/hat.png" alt="">
 						</div>
 						<div class="shop-body">
-							<h3>Cameras
-								<br>Collection</h3>
+							<h3>หมวกไหมพรม</h3>
 							<a href="#" class="cta-btn">Shop now
 								<i class="fa fa-arrow-circle-right"></i>
 							</a>
@@ -434,19 +433,10 @@ $query2 = mysqli_query($con, $sqlpd)
 							<h3 class="footer-title">Categories</h3>
 							<ul class="footer-links">
 								<li>
-									<a href="#">Hot deals</a>
+									<a href="allproduct.php">สินค้า</a>
 								</li>
 								<li>
 									<a href="#">Laptops</a>
-								</li>
-								<li>
-									<a href="#">Smartphones</a>
-								</li>
-								<li>
-									<a href="#">Cameras</a>
-								</li>
-								<li>
-									<a href="#">Accessories</a>
 								</li>
 							</ul>
 						</div>
