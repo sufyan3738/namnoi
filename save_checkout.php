@@ -41,8 +41,8 @@ if (isset($_POST["password"])){
   $SumTotal = 0;
 	
 	// เพิ่มข้อมูลลงใน orders
-  $strSQL = "INSERT INTO orders (date_time,c_id,total_price)
-	VALUE ('".date("Y-m-d H:i:s")."','".$c_result["c_id"]."','".$_SESSION["lasttotal"]."')";
+  $strSQL = "INSERT INTO orders (date_time,c_id,total_price,shipping_cost)
+	VALUE ('".date("Y-m-d H:i:s")."','".$c_result["c_id"]."','".$_SESSION["lasttotal"]."','".$_SESSION["e_price"]."')";
   $objQuery = mysqli_query($con,$strSQL);
   if(!$objQuery)
   {
@@ -52,15 +52,15 @@ if (isset($_POST["password"])){
   }
 
   $strOrderID = mysqli_insert_id($con);
-
+echo $strOrderID;
   for($i=0;$i<=(int)$_SESSION["intLine"];$i++)
   {
 	  if($_SESSION["strp_id"][$i] != "")
 	  {		// เพิ่มข้อมูลลงใน orders_list
-			  $orsql = "INSERT INTO orders_list (o_id,p_id,Qty,shipping_cost)
-				VALUES ('".$strOrderID."','".$_SESSION["strp_id"][$i]."','".$_SESSION["strQty"][$i]."','".$_SESSION["e_price"]."')";
+			  $orsql = "INSERT INTO orders_list (o_id,p_id,Qty)
+				VALUES ('".$strOrderID."','".$_SESSION["strp_id"][$i]."','".$_SESSION["strQty"][$i]."')";
 				mysqli_query($con,$orsql);
-				if(!$objQuery)
+				if(!mysqli_query($con,$orsql))
 				{
 				echo $con->error;
 				echo "เพิ่มข้อมูลลงใน orders_list";
@@ -69,15 +69,16 @@ if (isset($_POST["password"])){
 				
 				// ตัดสต๊อก
 				$cal = 0;
+				$num = 0;
 				$psql = "SELECT * FROM product WHERE p_id = '".$_SESSION["strp_id"][$i]."' ";
 				$pquery = mysqli_query($con, $psql);
-				
 				$presult = mysqli_fetch_assoc($pquery);
 				$cal = $presult['p_count'] - $_SESSION["strQty"][$i];
-				
+				$num = $presult['buy'] + $_SESSION["strQty"][$i];
 				if($cal >= '0'){
 						$p_sql = "UPDATE product SET 
-						p_count = $cal WHERE p_id = '".$_SESSION["strp_id"][$i]."'";
+						p_count = $cal 
+						buy = $num WHERE p_id = '".$_SESSION["strp_id"][$i]."'";
 						$p_query = mysqli_query($con,$p_sql);
 						if(!$p_query)
 						{
@@ -86,9 +87,9 @@ if (isset($_POST["password"])){
 						
 				}else{
 						$p_sql = "UPDATE product SET 
-						p_count = 0, buy = buy+ABS($cal) WHERE p_id = '".$_SESSION["strp_id"][$i]."'";
+						p_count = 0, buy = $num WHERE p_id = '".$_SESSION["strp_id"][$i]."'";
 						$p_query = mysqli_query($con,$p_sql);
-						if($p_query)
+						if(!$p_query)
 						{
 								echo "Error Save [".$p_sql."]";
 						}
@@ -101,7 +102,6 @@ mysqli_close($con);
 session_destroy();
 echo "<script>";
 echo "alert(\"สั่งซื้อเรียบร้อยแล้ว\");";
-echo "window.history.back()"; //ไปหน้าเเรกของพนักงาน
 echo "</script>";
-header("location:view_order.php?OrderID=".$strOrderID);
+// header("location:view_order.php?OrderID=".$strOrderID);
 ?>

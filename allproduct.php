@@ -90,7 +90,7 @@ $query2 = mysqli_query($con, $sqlpd);
 					$_SESSION['c_name'] = $Result['c_name'];
 					?>
 						<li>
-						<a href="#">
+						<a href="profile.php">
 						<i class="fa fa-user-o"></i><?php echo $Result['c_name']; ?></a>
 						</li>
 						<li>
@@ -215,19 +215,6 @@ $query2 = mysqli_query($con, $sqlpd);
 									</div>
 									<div class="cart-btns">
 										<a href="cart.php">View Cart</a>
-
-										<!-- ถ้าไม่มีสินค้า ดำเนินการชำระเงินไม่ได้ -->
-										<?php
-										if($SumTotal > 0){
-										?>
-											<a href="checkout.php">Checkout
-												<i class="fa fa-arrow-circle-right"></i>
-											</a>
-										<?php
-											}
-										?>
-										<!-- ถ้าไม่มีสินค้า ดำเนินการชำระเงินไม่ได้ -->
-
 									</div>
 								</div>
 							</div>

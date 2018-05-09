@@ -55,7 +55,20 @@
             header("Location: shop.php");
           }
           elseif($_SESSION["type"]=="A"){ //ถ้าเป็น admin ให้กระโดดไปหน้า admin.php
-            header("Location: admin.php");
+            $sql_a = "SELECT * FROM admin WHERE a_id='" . $_SESSION['iden_id'] . "'";
+            $query_c = mysqli_query($con,$sql_c);
+            if(!$query_c)
+            {
+              echo $con->error;
+              exit();
+            }
+            $Result_c = mysqli_fetch_array($query_c,MYSQLI_ASSOC);
+            $_SESSION['c_id'] = $Result_c['c_id'];
+              //header("Location: index.php");
+              echo "<script>";
+              echo "alert(\"เข้าสู่ระบบสำเร็จ\");";
+              echo "window.history.back()"; //ไปหน้าเเรกของพนักงาน
+              echo "</script>";
           }
           elseif ($_SESSION["type"]=="F"){  //ถ้าเป็น member ให้กระโดดไปหน้า folk.php
             $sql_f = "SELECT * FROM folk WHERE username='$username'";

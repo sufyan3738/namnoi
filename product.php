@@ -216,19 +216,6 @@ $result2 = mysqli_fetch_array($query2, MYSQLI_ASSOC);
 									</div>
 									<div class="cart-btns">
 										<a href="cart.php">View Cart</a>
-
-										<!-- ถ้าไม่มีสินค้า ดำเนินการชำระเงินไม่ได้ -->
-										<?php
-										if($SumTotal > 0){
-										?>
-											<a href="checkout.php">Checkout
-												<i class="fa fa-arrow-circle-right"></i>
-											</a>
-										<?php
-											}
-										?>
-										<!-- ถ้าไม่มีสินค้า ดำเนินการชำระเงินไม่ได้ -->
-
 									</div>
 								</div>
 							</div>
@@ -335,7 +322,14 @@ $result2 = mysqli_fetch_array($query2, MYSQLI_ASSOC);
 								<span class="product-available">จำนวนคงเหลือ <?php echo $result2['p_count']; ?></span>
 							</div>
 							<p><?php echo $result2['description']; ?></p>
-
+							<div class="product-options">
+								<label>
+									สี :<?php echo $result2['p_color']; ?>
+								</label>
+								<label>
+									ขนาด :<?php echo $result2['p_size']; ?>
+								</label>
+							</div>
 							<div class="add-to-cart">
 								<div class="qty-label">
 									Qty
@@ -410,58 +404,42 @@ $result2 = mysqli_fetch_array($query2, MYSQLI_ASSOC);
 		</div>
 		<!-- /SECTION -->
 
-		<!-- Section -->
-		<div class="section">
+			<!-- HOT DEAL SECTION -->
+			<div id="hot-deal" class="section">
 			<!-- container -->
 			<div class="container">
 				<!-- row -->
 				<div class="row">
-
-					<div class="col-md-12">
+				<div class="col-md-12">
 						<div class="section-title text-center">
 							<h3 class="title">วิดีโอสาธิต</h3>
+							<br><br>
+							<?php 
+								if(!isset($result2["p_video_demo"])){
+									echo "ไม่มีวิดีโอ";
+								}else{
+									?>
+									<!-- video -->
+									<video controls>
+										<source type="video/mp4" src="video/<?php echo $result2["p_video_demo"]; ?>"></source>
+										<source type="video/webm" src="videos/<?php echo $result2["p_video_demo"]; ?>"></source>
+										<source type="video/ogg" src="videos/<?php echo $result2["p_video_demo"]; ?>"></source>
+										<object type="application/x-shockwave-flash" data="videos/video.swf" width="320" height="240"> 
+											<param name="movie" value="videos/video.swf">
+										</object>
+									</video>
+									<!-- /video -->
+									<?php
+								}
+							?>
 						</div>
 					</div>
-
-					<!-- product -->
-					<div class="col-md-3 col-xs-6">
-						<div class="product">
-							<div class="product-img">
-								<img src="./img/product02.png" alt="">
-								<div class="product-label">
-									<span class="new">NEW</span>
-								</div>
-							</div>
-							<div class="product-body">
-								<p class="product-category">Category</p>
-								<h3 class="product-name"><a href="#">product name goes here</a></h3>
-								<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								<div class="product-rating">
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-								</div>
-								<div class="product-btns">
-									<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-									<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-									<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-								</div>
-							</div>
-							<div class="add-to-cart">
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-							</div>
-						</div>
-					</div>
-					<!-- /product -->
-
 				</div>
 				<!-- /row -->
 			</div>
 			<!-- /container -->
 		</div>
-		<!-- /Section -->
+		<!-- /HOT DEAL SECTION -->
 
 		<!-- NEWSLETTER -->
 		<div id="newsletter" class="section">
@@ -602,6 +580,8 @@ $result2 = mysqli_fetch_array($query2, MYSQLI_ASSOC);
 		<script src="js/nouislider.min.js"></script>
 		<script src="js/jquery.zoom.min.js"></script>
 		<script src="js/main.js"></script>
-
+		<?php
+	mysqli_close($con);
+	?>
 	</body>
 </html>

@@ -4,7 +4,7 @@ session_start();
 require 'connect.php';
 // DB PRODUCT
 $sqlpd = "SELECT product.*,type.* FROM product,type
-   WHERE product.t_id = type.t_id ORDER BY p_id ASC";
+   WHERE product.t_id = type.t_id ORDER BY product.buy DESC LIMIT 4";
 $query2 = mysqli_query($con, $sqlpd)
 // DB PRODUCT;
 ?>
@@ -86,7 +86,7 @@ $query2 = mysqli_query($con, $sqlpd)
 					$_SESSION['c_name'] = $Result['c_name'];
 					?>
 						<li>
-						<a href="#">
+						<a href="profile.php">
 						<i class="fa fa-user-o"></i><?php echo $Result['c_name']; ?></a>
 						</li>
 						<li>
@@ -211,19 +211,6 @@ $query2 = mysqli_query($con, $sqlpd)
 									</div>
 									<div class="cart-btns">
 										<a href="cart.php">View Cart</a>
-
-										<!-- ถ้าไม่มีสินค้า ดำเนินการชำระเงินไม่ได้ -->
-										<?php
-										if($SumTotal > 0){
-										?>
-											<a href="checkout.php">Checkout
-												<i class="fa fa-arrow-circle-right"></i>
-											</a>
-										<?php
-											}
-										?>
-										<!-- ถ้าไม่มีสินค้า ดำเนินการชำระเงินไม่ได้ -->
-
 									</div>
 								</div>
 							</div>
@@ -261,23 +248,12 @@ $query2 = mysqli_query($con, $sqlpd)
 						<a href="index.php">Home</a>
 					</li>
 					<li>
-						<a href="#">Hot Deals</a>
+						<a href="allproduct.php">สินค้า</a>
 					</li>
 					<li>
-						<a href="#">Categories</a>
+						<a href="searchorder.php">ค้นหาคำสั่งซื้อ</a>
 					</li>
-					<li>
-						<a href="#">Laptops</a>
-					</li>
-					<li>
-						<a href="#">Smartphones</a>
-					</li>
-					<li>
-						<a href="#">Cameras</a>
-					</li>
-					<li>
-						<a href="#">Accessories</a>
-					</li>
+
 				</ul>
 				<!-- /NAV -->
 			</div>
@@ -487,7 +463,7 @@ $query2 = mysqli_query($con, $sqlpd)
 					<div class="col-md-3 col-xs-6">
 						<div class="footer">
 							<h3 class="footer-title">About Us</h3>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</p>
+							<p>เว็บไซต์ขายของออนไลน์ของกลุ่มวิสาหกิจชุมชน ต.น้ำน้อย</p>
 							<ul class="footer-links">
 								<li>
 									<a href="#">
@@ -581,60 +557,6 @@ $query2 = mysqli_query($con, $sqlpd)
 			<!-- /container -->
 		</div>
 		<!-- /top footer -->
-
-		<!-- bottom footer -->
-		<div id="bottom-footer" class="section">
-			<div class="container">
-				<!-- row -->
-				<div class="row">
-					<div class="col-md-12 text-center">
-						<ul class="footer-payments">
-							<li>
-								<a href="#">
-									<i class="fa fa-cc-visa"></i>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<i class="fa fa-credit-card"></i>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<i class="fa fa-cc-paypal"></i>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<i class="fa fa-cc-mastercard"></i>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<i class="fa fa-cc-discover"></i>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<i class="fa fa-cc-amex"></i>
-								</a>
-							</li>
-						</ul>
-						<span class="copyright">
-							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-							Copyright &copy;
-							<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with
-							<i class="fa fa-heart-o" aria-hidden="true"></i> by
-							<a href="https://colorlib.com" target="_blank">Colorlib</a>
-							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-						</span>
-					</div>
-				</div>
-				<!-- /row -->
-			</div>
-			<!-- /container -->
-		</div>
-		<!-- /bottom footer -->
 	</footer>
 	<!-- /FOOTER -->
 
@@ -645,7 +567,9 @@ $query2 = mysqli_query($con, $sqlpd)
 	<script src="js/nouislider.min.js"></script>
 	<script src="js/jquery.zoom.min.js"></script>
 	<script src="js/main.js"></script>
-
+	<?php
+	mysqli_close($con);
+	?>
 </body>
 
 </html>

@@ -87,55 +87,37 @@ $viewresult = mysqli_fetch_array($viewquery,MYSQLI_ASSOC);
                         <th>ราคาสินค้าต่อหน่วย</th>
                         <th>ราคารวม</th>
 					</tr>
-	     		</thead>
-			    <tbody>
-					<tr>
-					    <td>xxxxx</td>
-					    <td>xx</td>
-					    <td>xx</td>
-                        <td>xx</td>
-                        <td>xx</td>
-                        <td>xx</td>
-					</tr>
-					<tr>
-                        <td>xxxxx</td>
-                        <td>xx</td>
-                        <td>xx</td>
-                        <td>xx</td>
-                        <td>xx</td>
-                        <td>xx</td>
-					</tr>
-					<tr>
-                        <td>xxxxx</td>
-                        <td>xx</td>
-                        <td>xx</td>
-                        <td>xx</td>
-                        <td>xx</td>
-                        <td>xx</td>
-					</tr>
-					<tr>
-                        <td>xxxxx</td>
-                        <td>xx</td>
-                        <td>xx</td>
-                        <td>xx</td>
-                        <td>xx</td>
-                        <td>xx</td>
-					</tr>
-				</tbody>
+				 </thead>
+				 <?php
+				 $total = 0;
+				 	$viewpsql = "SELECT product.*,orders_list.* FROM product,orders_list WHERE product.p_id = orders_list.p_id AND orders_list.o_id = '".$_GET["OrderID"]."'";
+					 $viewpquery = mysqli_query($con,$viewpsql);
+					 while ($viewpresult = mysqli_fetch_array($viewpquery)) {
+						$total = $viewpresult["p_amount"] * $viewpresult["Qty"];
+						 ?>
+							<tbody>
+								<tr>
+									<td><?php echo $viewpresult["p_name"]?></td>
+									<td><?php echo $viewpresult["p_color"]?></td>
+									<td><?php echo $viewpresult["p_size"]?></td>
+									<td><?php echo $viewpresult["Qty"]?></td>
+									<td><?php echo $viewpresult["p_amount"]?></td>
+									<td><?php echo $total?></td>
+								</tr>
+							</tbody>
+						 <?php
+					 }
+				 ?>
             </table>
             <table class="columnt table table-bordered">
 			    <tbody>
-					<tr>
-					    <td><b>จำนวนเงินรวม</b></td>
-					    <td>xxxx</td>
-                    </tr>
                     <tr>
                         <td><b>อัตราค่าบริการส่งแบบลงทะเบียน/EMS</b></td>
-                        <td>xxxx</td>
+                        <td><?=number_format($viewresult["shipping_cost"]);?></td>
                     </tr>
                     <tr>
                        <td><b>ราคาสุทธิ</b></td>
-                      <td>xxxx</td>
+                      <td><?php echo $viewresult["total_price"]?></td>
                     </tr>
             </table>
         </div>
@@ -149,7 +131,7 @@ $viewresult = mysqli_fetch_array($viewquery,MYSQLI_ASSOC);
                         ประเภทบัญชี : ออมทรัพย์
                     </td>
                     <td>QR Code<br>
-                    <img height="100px" width="100px" src="img/code-qr.png">
+                    <img height="100px" width="100px" src="img/10.png">
                     </td>
                 </tr>
             </table>

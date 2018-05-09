@@ -236,19 +236,6 @@ require 'connect.php';
 									</div>
 									<div class="cart-btns">
 										<a href="cart.php">View Cart</a>
-
-										<!-- ถ้าไม่มีสินค้า ดำเนินการชำระเงินไม่ได้ -->
-										<?php
-										if($SumTotal > 0){
-										?>
-											<a href="checkout.php">Checkout
-												<i class="fa fa-arrow-circle-right"></i>
-											</a>
-										<?php
-											}
-										?>
-										<!-- ถ้าไม่มีสินค้า ดำเนินการชำระเงินไม่ได้ -->
-
 									</div>
 								</div>
 							</div>

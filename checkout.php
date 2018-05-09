@@ -31,14 +31,6 @@ $_SESSION['e_price'] = $_POST['e_price'];
 
  		<!-- Custom stlylesheet -->
  		<link type="text/css" rel="stylesheet" href="css/style.css"/>
-
-		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-		<!--[if lt IE 9]>
-		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-		<![endif]-->
-
 	</head>
 
 	<?php
@@ -190,19 +182,6 @@ $_SESSION['e_price'] = $_POST['e_price'];
 									</div>
 									<div class="cart-btns">
 										<a href="cart.php">View Cart</a>
-
-										<!-- ถ้าไม่มีสินค้า ดำเนินการชำระเงินไม่ได้ -->
-										<?php
-										if($SumTotal > 0){
-										?>
-											<a href="checkout.php">Checkout
-												<i class="fa fa-arrow-circle-right"></i>
-											</a>
-										<?php
-											}
-										?>
-										<!-- ถ้าไม่มีสินค้า ดำเนินการชำระเงินไม่ได้ -->
-
 									</div>
 								</div>
 							</div>
@@ -283,14 +262,14 @@ $_SESSION['e_price'] = $_POST['e_price'];
 						<!-- Billing Details -->
 						<div class="billing-details">
 							<div class="section-title">
-								<h3 class="title">ที่อยู่ใบใบเสร็จ</h3>
+								<h3 class="title">ที่อยู่</h3>
 							</div>
-							<form action="save_checkout.php" method="post">
-							<div class="form-group">
-								<input class="input" type="text" name="name" placeholder="ชื่อ-สกุล">
-							</div>
+							<form action="checkout.php" method="post">
 							<div class="form-group">
 								<input class="input" type="email" name="email" placeholder="Email">
+							</div>							
+							<div class="form-group">
+								<input class="input" type="text" name="name" placeholder="ชื่อ-สกุล">
 							</div>
 							<div class="form-group">
 								<input class="input" type="text" name="address" placeholder="ที่อยู่">
@@ -327,12 +306,12 @@ $_SESSION['e_price'] = $_POST['e_price'];
 						<!-- /Billing Details -->
 
 						<!-- Shiping Details -->
-						<div class="shiping-details">
+						<!-- <div class="shiping-details">
 							<div class="section-title">
 								<h3 class="title">ที่อยู่เพื่อจัดส่งสินค้า</h3>
 							</div>
 							<div class="input-checkbox">
-								<input type="checkbox" id="shiping-address">
+								<input type="checkbox" id="shiping-address" name="">
 								<label for="shiping-address">
 									<span></span>
 									ต้องการจัดส่งไปยังที่อยู่อื่นหรือไม่?
@@ -361,13 +340,13 @@ $_SESSION['e_price'] = $_POST['e_price'];
 									</div>
 								</div>
 							</div>
-						</div>
+						</div> -->
 						<!-- /Shiping Details -->
 
 						<!-- Order notes -->
-						<div class="order-notes">
+						<!-- <div class="order-notes">
 							<textarea class="input" placeholder="Order Notes"></textarea>
-						</div>
+						</div> -->
 						<!-- /Order notes -->
 					</div>
 
@@ -582,14 +561,6 @@ $_SESSION['e_price'] = $_POST['e_price'];
 					<!-- row -->
 					<div class="row">
 						<div class="col-md-12 text-center">
-							<ul class="footer-payments">
-								<li><a href="#"><i class="fa fa-cc-visa"></i></a></li>
-								<li><a href="#"><i class="fa fa-credit-card"></i></a></li>
-								<li><a href="#"><i class="fa fa-cc-paypal"></i></a></li>
-								<li><a href="#"><i class="fa fa-cc-mastercard"></i></a></li>
-								<li><a href="#"><i class="fa fa-cc-discover"></i></a></li>
-								<li><a href="#"><i class="fa fa-cc-amex"></i></a></li>
-							</ul>
 							<span class="copyright">
 								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 								Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
