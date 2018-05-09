@@ -144,7 +144,7 @@ require 'connect.php';
 
 					<!-- SEARCH BAR -->
 					<?php
-					$Keyword = null;
+					$Keyword = "รหัสคำสั่งซื้อ";
 					if (isset($_POST["Keyword"])) {
 					$Keyword = $_POST["Keyword"];
 					}
@@ -283,7 +283,7 @@ require 'connect.php';
 						<div class="container"> 		
 												
 						<?php
-						$o_sql = "SELECT * FROM orders WHERE o_id LIKE '%".$Keyword."%' ";
+						$o_sql = "SELECT * FROM orders WHERE o_id = '".$Keyword."' ";
 						$o_query = mysqli_query($con,$o_sql);
 						?>
 
@@ -301,7 +301,7 @@ require 'connect.php';
 									while($o_result=mysqli_fetch_array($o_query,MYSQLI_ASSOC)){
 									?>
 										<tr>
-											<td><?=$o_result["o_id"];?></td>
+											<td><a href="view_order_status.php?OrderID=<?=$o_result["o_id"];?>"><?=$o_result["o_id"];?></a></td>
 											<td><?=$o_result["date_time"];?></td>
 											<td><a href="view_order_detail.php?OrderID=<?=$o_result["o_id"];?>" target="_blank"> รายละเอียด</a></td>
 										</tr>

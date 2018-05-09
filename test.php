@@ -1,47 +1,28 @@
-<?php
-
-$Keyword = null;
-
-if (isset($_POST["Keyword"])) {
-  $Keyword = $_POST["Keyword"];
-}
-?>
-  	<!-- SEARCH BAR -->
-	  <div class="col-md-3">
-		<div class="header-search">
-			<form method="post" action="<?php echo $_SERVER['SCRIPT_NAME']; ?>">
-				<input class="input" value="<?php echo $Keyword; ?>" placeholder="กรอกรหัสคำสั่งซื้อ">
-				<button class="search-btn">Search</button>
-			</form>
-		</div>
-	</div>
-	<!-- /SEARCH BAR -->
-
-<?php
-  require 'connect.php';
-
-  $o_sql = "SELECT * FROM orders WHERE o_id LIKE '%".$Keyword."%' ";
-  $o_query = mysqli_query($con,$o_sql);
-?>
-
-<table width="600" border="1">
-  <tr>
-    <th width="100"><div align="center">รูปภาพ</div></th>
-    <th width="100"><div align="center">ชื่อสินค้า</div></th>
-    <th width="100"><div align="center">ประเภทสินค้า</div></th>
-    <th width="100"><div align="center">แก้ไข</div></th>  
-  </tr>
-<?php
-  while($result=mysqli_fetch_array($query,MYSQLI_ASSOC))
-  {
-?>
-  <tr>
-    <td><img src="img/<?php echo $result["p_pictures"];?>"></td>
-    <td><?php echo $result["p_name"];?></td>
-    <td><?php echo $result["t_id"];?></td>
-    <td align="center"><a href="edit.php?p_id=<?php echo $result["p_id"];?>">แก้ไข</a></td>
-  </tr>
-<?php
-  }
-?>
-</table>
+<table class="table table-bordered">
+    		    <thead>
+					<tr>
+						<th>ชื่อสินค้า</th>
+                        <th>จำนวน</th>
+                        <th>วันที่ส่งสินค้า</th>
+                        <th>เลขที่พัสดุ</th>
+					</tr>
+				 </thead>
+				 <?php
+				 $total = 0;
+				 	$viewpsql = "SELECT product.*,orders_list.* FROM product,orders_list WHERE product.p_id = orders_list.p_id AND orders_list.o_id = '".$_GET["OrderID"]."'";
+					 $viewpquery = mysqli_query($con,$viewpsql);
+					 while ($viewpresult = mysqli_fetch_array($viewpquery)) {
+						$total = $viewpresult["p_amount"] * $viewpresult["Qty"];
+						 ?>
+							<tbody>
+								<tr>
+									<td><?php echo $viewpresult["p_name"]?></td>
+									<td><?php echo $viewpresult["Qty"]?></td>
+									<td><?php echo $viewpresult["send_date"]?></td>
+									<td><?php echo $viewpresult["track_id"]?></td>
+								</tr>
+							</tbody>
+						 <?php
+					 }
+				 ?>
+            </table>

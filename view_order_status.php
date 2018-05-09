@@ -58,9 +58,12 @@ require 'connect.php';
 				<ul class="header-links pull-right">
 					<?php
 				if (!isset($_SESSION["type"])) {
-					header("Location: logout.php");
-				} else if($_SESSION["type"] != "C"){
-					header("Location: logout.php");
+                    ?>
+                    <li>
+                    <a href="#" data-toggle="modal" data-target="#myModal">
+                    <i class="fa fa-user-o"></i> Login</a>
+                    </li>
+                    <?php
 				} else {
 					$c_id = $_SESSION['c_id'];
 
@@ -250,20 +253,17 @@ require 'connect.php';
 		</div>
 		<!-- /container -->
 	</nav>
-    <!-- /NAVIGATION -->
+	<!-- /NAVIGATION -->
     
     		<!-- BREADCRUMB -->
-		<div id="breadcrumb" class="section">
+			<div id="breadcrumb" class="section">
 			<!-- container -->
 			<div class="container">
 				<!-- row -->
 				<div class="row">
 					<div class="col-md-12">
-						<h3 class="breadcrumb-header"><?php echo $Result['c_name']; ?></h3>
-						<ul class="breadcrumb-tree">
-							<li class="active"><a href="#">Profile</a></li>
-							<li><a href="view_order.php">คำสั่งซื้อ</a></li>
-						</ul>
+						<h3 class="breadcrumb-header">สถานะคำสั่งซื้อ</h3>
+
 					</div>
 				</div>
 				<!-- /row -->
@@ -271,44 +271,44 @@ require 'connect.php';
 			<!-- /container -->
 		</div>
 		<!-- /BREADCRUMB -->
-
+		
 	<!-- SECTION -->
 	<div class="section">
 		<!-- container -->
 		<div class="container">
 			<!-- row -->
 			<div class="row">
-            <div class="col-md-5">
-						<!-- Billing Details -->
-						<div class="billing-details">
-							<div class="form-group">ชื่อ-สกุล
-								<input class="input" type="text" name="name" placeholder="<?php echo $Result['c_name']; ?>" disabled>
-							</div>							
-							<div class="form-group">ที่อยู่
-								<input class="input" type="text" name="address" placeholder="<?php echo $Result['c_address']; ?>" disabled>
-							</div>
-							<div class="form-group">ตำบล
-								<input class="input" type="text" name="district" placeholder="<?php echo $Result['c_district']; ?>" disabled>
-							</div>
-							<div class="form-group">อำเภอ
-								<input class="input" type="text" name="amphur" placeholder="<?php echo $Result['c_amphur']; ?>" disabled>
-							</div>
-							<div class="form-group">จังหวัด
-								<input class="input" type="text" name="province" placeholder="<?php echo $Result['c_province']; ?>" disabled>
-							</div>
-							<div class="form-group">รหัสไปรษณีย์
-								<input class="input" type="text" name="zip-code" placeholder="<?php echo $Result['c_zip_code']; ?>" disabled>
-							</div>
-							<div class="form-group">เบอร์โทรศัพท์
-								<input class="input" type="tel" name="tel" placeholder="<?php echo $Result['c_phone']; ?>" disabled>
-							</div>
+			<div class="col-md-12">						
+						<div class="container"> 						
+                        <table class="table table-bordered">
+    		    <thead>
+					<tr>
+						<th>ชื่อสินค้า</th>
+                        <th>จำนวน</th>
+                        <th>วันที่ส่งสินค้า</th>
+                        <th>เลขที่พัสดุ</th>
+					</tr>
+				 </thead>
+				 <?php
+				 $total = 0;
+				 	$viewpsql = "SELECT product.*,orders_list.* FROM product,orders_list WHERE product.p_id = orders_list.p_id AND orders_list.o_id = '".$_GET["OrderID"]."'";
+					 $viewpquery = mysqli_query($con,$viewpsql);
+					 while ($viewpresult = mysqli_fetch_array($viewpquery)) {
+						$total = $viewpresult["p_amount"] * $viewpresult["Qty"];
+						 ?>
+							<tbody>
+								<tr>
+									<td><?php echo $viewpresult["p_name"]?></td>
+									<td><?php echo $viewpresult["Qty"]?></td>
+									<td><?php echo $viewpresult["send_date"]?></td>
+									<td><?php echo $viewpresult["track_id"]?></td>
+								</tr>
+							</tbody>
+						 <?php
+					 }
+				 ?>
+            </table>
 						</div>
-						<div class="add-to-cart">
-							<button class="add-to-cart-btn" onclick="window.location.href = 'edit_profile.php'">
-								 แก้ไขข้อมูล
-							</button>			
-						</div>
-						<!-- /Billing Details -->
 					</div>
 
 			</div>
@@ -429,9 +429,7 @@ require 'connect.php';
 	<script src="js/nouislider.min.js"></script>
 	<script src="js/jquery.zoom.min.js"></script>
 	<script src="js/main.js"></script>
-	<?php
-	mysqli_close($con);
-	?>
+
 </body>
 
 </html>

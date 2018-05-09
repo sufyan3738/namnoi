@@ -69,8 +69,6 @@ $query2 = mysqli_query($con, $sqlpd)
 						</li>
 						<?php
 
-				} else if($_SESSION["type"] != "C"){
-					header("Location: logout.php");
 				} else {
 					$c_id = $_SESSION['c_id'];
 
@@ -278,7 +276,7 @@ $query2 = mysqli_query($con, $sqlpd)
 						<div class="shop-body">
 							<h3>ถั่วคั่วทราย
 								</h3>
-							<a href="#" class="cta-btn">Shop now
+							<a href="product.php?p_id=3" class="cta-btn">Shop now
 								<i class="fa fa-arrow-circle-right"></i>
 							</a>
 						</div>
@@ -294,7 +292,7 @@ $query2 = mysqli_query($con, $sqlpd)
 						</div>
 						<div class="shop-body">
 							<h3>ตะกร้าใยปอ</h3>
-							<a href="#" class="cta-btn">Shop now
+							<a href="product.php?p_id=5" class="cta-btn">Shop now
 								<i class="fa fa-arrow-circle-right"></i>
 							</a>
 						</div>
@@ -310,7 +308,7 @@ $query2 = mysqli_query($con, $sqlpd)
 						</div>
 						<div class="shop-body">
 							<h3>หมวกไหมพรม</h3>
-							<a href="#" class="cta-btn">Shop now
+							<a href="product.php?p_id=1" class="cta-btn">Shop now
 								<i class="fa fa-arrow-circle-right"></i>
 							</a>
 						</div>

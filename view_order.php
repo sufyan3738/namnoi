@@ -58,13 +58,7 @@ require 'connect.php';
 				<ul class="header-links pull-right">
 					<?php
 				if (!isset($_SESSION["type"])) {
-					?>
-						<li>
-						<a href="#" data-toggle="modal" data-target="#myModal">
-						<i class="fa fa-user-o"></i> Login</a>
-						</li>
-						<?php
-
+					header("Location: logout.php");
 				} else if($_SESSION["type"] != "C"){
 					header("Location: logout.php");
 				} else {
@@ -303,7 +297,7 @@ require 'connect.php';
 										while ($oresult = mysqli_fetch_array($oquery,MYSQLI_ASSOC)) {
 										?>
 										<tr>
-											<td><?=$oresult["o_id"];?></td>
+											<td><a href="view_order_status.php?OrderID=<?=$oresult["o_id"];?>"><?=$oresult["o_id"];?></a></td>
 											<td><?=$oresult["date_time"];?></td>
 											<td><a href="view_order_detail.php?OrderID=<?=$oresult["o_id"];?>"> รายละเอียด</a></td>
 										</tr>

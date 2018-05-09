@@ -103,5 +103,5 @@ session_destroy();
 echo "<script>";
 echo "alert(\"สั่งซื้อเรียบร้อยแล้ว\");";
 echo "</script>";
-header("location:view_order.php?OrderID=".$strOrderID);
+header("location:view_order_detail.php?OrderID=".$strOrderID);
 ?>
