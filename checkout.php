@@ -11,7 +11,7 @@ $_SESSION['e_price'] = $_POST['e_price'];
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-		<title>Electro - HTML Ecommerce Template</title>
+		<title>Checkout</title>
 
  		<!-- Google font -->
  		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
@@ -50,11 +50,10 @@ $_SESSION['e_price'] = $_POST['e_price'];
 			<!-- TOP HEADER -->
 			<div id="top-header">
 				<div class="container">
-					<ul class="header-links pull-left">
-						<li><a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a></li>
-						<li><a href="#"><i class="fa fa-envelope-o"></i> email@email.com</a></li>
-						<li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
-					</ul>
+				<ul class="header-links pull-left">
+					<li><a href="#"><i class="fa fa-phone"></i> 074 446 983</a></li>
+					<li><a href="#"><i class="fa fa-map-marker"></i> 69/186 เมืองใหม่ 6 ซอย 1 ตำบล คลองแห อำเภอ หาดใหญ่ สงขลา 90110</a></li>
+				</ul>
 
 					<!-- ปุ่ม login logout -->
 					<ul class="header-links pull-right">
@@ -81,7 +80,7 @@ $_SESSION['e_price'] = $_POST['e_price'];
 						$_SESSION['c_name'] = $Result['c_name'];
 						?>
 							<li>
-							<a href="#">
+							<a href="profile.php">
 							<i class="fa fa-user-o"></i><?php echo $Result['c_name']; ?></a>
 							</li>
 							<li>
@@ -128,7 +127,6 @@ $_SESSION['e_price'] = $_POST['e_price'];
 								<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
 									<i class="fa fa-shopping-cart"></i>
 									<span>Your Cart</span>
-									<!-- <div class="qty">3</div> -->
 								</a>
 								<div class="cart-dropdown">
 									<div class="cart-list">
@@ -215,13 +213,9 @@ $_SESSION['e_price'] = $_POST['e_price'];
 				<div id="responsive-nav">
 					<!-- NAV -->
 					<ul class="main-nav nav navbar-nav">
-						<li class="active"><a href="#">Home</a></li>
-						<li><a href="#">Hot Deals</a></li>
-						<li><a href="#">Categories</a></li>
-						<li><a href="#">Laptops</a></li>
-						<li><a href="#">Smartphones</a></li>
-						<li><a href="#">Cameras</a></li>
-						<li><a href="#">Accessories</a></li>
+					<li><a href="index.php">Home</a></li>
+					<li><a href="allproduct.php">สินค้า</a></li>
+					<li><a href="searchorder.php">ค้นหาคำสั่งซื้อ</a></li>
 					</ul>
 					<!-- /NAV -->
 				</div>
@@ -240,8 +234,15 @@ $_SESSION['e_price'] = $_POST['e_price'];
 					<div class="col-md-12">
 						<h3 class="breadcrumb-header">Checkout</h3>
 						<ul class="breadcrumb-tree">
-							<li><a href="#">Home</a></li>
-							<li class="active">Checkout</li>
+						<li>
+						<a href="index.php">Home</a>
+					</li>
+					<li>
+						<a href="allproduct.php">สินค้า</a>
+					</li>
+					<li>
+						<a href="searchorder.php">ค้นหาคำสั่งซื้อ</a>
+					</li>
 						</ul>
 					</div>
 				</div>
@@ -264,7 +265,10 @@ $_SESSION['e_price'] = $_POST['e_price'];
 							<div class="section-title">
 								<h3 class="title">ที่อยู่</h3>
 							</div>
-							<form action="checkout.php" method="post">
+							<?php
+							if (!isset($_SESSION['c_id'])) {
+							?>
+							<form action="save_checkout.php" method="post">
 							<div class="form-group">
 								<input class="input" type="email" name="email" placeholder="Email">
 							</div>							
@@ -302,6 +306,38 @@ $_SESSION['e_price'] = $_POST['e_price'];
 									</div>
 								</div>
 							</div>
+							<?php
+							}else{
+							?>
+							<form action="save_checkout2.php" method="post">
+							<div class="form-group">
+								<input class="input" type="email" name="email" value="<?php echo $Result['c_email']; ?>">
+							</div>							
+							<div class="form-group">
+								<input class="input" type="text" name="name" value="<?php echo $Result['c_name']; ?>">
+							</div>
+							<div class="form-group">
+								<input class="input" type="text" name="address" value="<?php echo $Result['c_address']; ?>">
+							</div>
+							<div class="form-group">
+								<input class="input" type="text" name="district" value="<?php echo $Result['c_district']; ?>">
+							</div>
+							<div class="form-group">
+								<input class="input" type="text" name="amphur" value="<?php echo $Result['c_amphur']; ?>">
+							</div>
+							<div class="form-group">
+								<input class="input" type="text" name="province" value="<?php echo $Result['c_province']; ?>">
+							</div>
+							<div class="form-group">
+								<input class="input" type="text" name="zip-code" value="<?php echo $Result['c_zip_code']; ?>">
+							</div>
+							<div class="form-group">
+								<input class="input" type="tel" name="tel" value="<?php echo $Result['c_phone']; ?>">
+							</div>
+							<?php
+							}
+							?>
+							
 						</div>
 						<!-- /Billing Details -->
 
@@ -401,7 +437,7 @@ $_SESSION['e_price'] = $_POST['e_price'];
 								<div><strong class="order-total">฿<?=number_format($LastTotal);?></strong></div>
 							</div>
 						</div>
-						<div class="payment-method">
+						<!-- <div class="payment-method">
 							<div class="input-radio">
 								<input type="radio" name="payment" id="payment-1">
 								<label for="payment-1">
@@ -439,8 +475,8 @@ $_SESSION['e_price'] = $_POST['e_price'];
 								<span></span>
 								I've read and accept the <a href="#">terms & conditions</a>
 							</label>
-						</div>
-						<button class="primary-btn order-submit">Place order</a>
+						</div> -->
+						<button class="primary-btn order-submit">ยืนยันการสั่งซื้อ</a>
 					</div>
 					<!-- /Order Details -->
 					</form>
@@ -451,42 +487,6 @@ $_SESSION['e_price'] = $_POST['e_price'];
 			<!-- /container -->
 		</div>
 		<!-- /SECTION -->
-
-		<!-- NEWSLETTER -->
-		<div id="newsletter" class="section">
-			<!-- container -->
-			<div class="container">
-				<!-- row -->
-				<div class="row">
-					<div class="col-md-12">
-						<div class="newsletter">
-							<p>Sign Up for the <strong>NEWSLETTER</strong></p>
-							<form>
-								<input class="input" type="email" placeholder="Enter Your Email">
-								<button class="newsletter-btn"><i class="fa fa-envelope"></i> Subscribe</button>
-							</form>
-							<ul class="newsletter-follow">
-								<li>
-									<a href="#"><i class="fa fa-facebook"></i></a>
-								</li>
-								<li>
-									<a href="#"><i class="fa fa-twitter"></i></a>
-								</li>
-								<li>
-									<a href="#"><i class="fa fa-instagram"></i></a>
-								</li>
-								<li>
-									<a href="#"><i class="fa fa-pinterest"></i></a>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<!-- /row -->
-			</div>
-			<!-- /container -->
-		</div>
-		<!-- /NEWSLETTER -->
 
 		<!-- FOOTER -->
 		<footer id="footer">
@@ -501,9 +501,14 @@ $_SESSION['e_price'] = $_POST['e_price'];
 								<h3 class="footer-title">About Us</h3>
 								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</p>
 								<ul class="footer-links">
-									<li><a href="#"><i class="fa fa-map-marker"></i>1734 Stonecoal Road</a></li>
-									<li><a href="#"><i class="fa fa-phone"></i>+021-95-51-84</a></li>
-									<li><a href="#"><i class="fa fa-envelope-o"></i>email@email.com</a></li>
+								<li>
+									<a href="#">
+										<i class="fa fa-map-marker"></i>69/186 เมืองใหม่ 6 ซอย 1 ตำบล คลองแห อำเภอ หาดใหญ่ สงขลา 90110</a>
+								</li>
+								<li>
+									<a href="#">
+										<i class="fa fa-phone"></i>074 446 983</a>
+								</li>
 								</ul>
 							</div>
 						</div>
@@ -554,27 +559,6 @@ $_SESSION['e_price'] = $_POST['e_price'];
 				<!-- /container -->
 			</div>
 			<!-- /top footer -->
-
-			<!-- bottom footer -->
-			<div id="bottom-footer" class="section">
-				<div class="container">
-					<!-- row -->
-					<div class="row">
-						<div class="col-md-12 text-center">
-							<span class="copyright">
-								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-								Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-							</span>
-						</div>
-					</div>
-						<!-- /row -->
-				</div>
-				<!-- /container -->
-			</div>
-			<!-- /bottom footer -->
-		</footer>
-		<!-- /FOOTER -->
 
 		<!-- jQuery Plugins -->
 		<script src="js/jquery.min.js"></script>

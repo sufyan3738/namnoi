@@ -54,9 +54,8 @@ $query2 = mysqli_query($con, $sqlpd)
 		<div id="top-header">
 			<div class="container">
 				<ul class="header-links pull-left">
-					<li><a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a></li>
-					<li><a href="#"><i class="fa fa-envelope-o"></i> email@email.com</a></li>
-					<li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
+					<li><a href="#"><i class="fa fa-phone"></i> 074 446 983</a></li>
+					<li><a href="#"><i class="fa fa-map-marker"></i> 69/186 เมืองใหม่ 6 ซอย 1 ตำบล คลองแห อำเภอ หาดใหญ่ สงขลา 90110</a></li>
 				</ul>
 
 				<!-- ปุ่ม login logout -->
@@ -405,53 +404,6 @@ $query2 = mysqli_query($con, $sqlpd)
 	</div>
 	<!-- /SECTION -->
 
-	<!-- NEWSLETTER -->
-	<div id="newsletter" class="section">
-		<!-- container -->
-		<div class="container">
-			<!-- row -->
-			<div class="row">
-				<div class="col-md-12">
-					<div class="newsletter">
-						<p>Sign Up for the
-							<strong>NEWSLETTER</strong>
-						</p>
-						<form>
-							<input class="input" type="email" placeholder="Enter Your Email">
-							<button class="newsletter-btn">
-								<i class="fa fa-envelope"></i> Subscribe</button>
-						</form>
-						<ul class="newsletter-follow">
-							<li>
-								<a href="#">
-									<i class="fa fa-facebook"></i>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<i class="fa fa-twitter"></i>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<i class="fa fa-instagram"></i>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<i class="fa fa-pinterest"></i>
-								</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<!-- /row -->
-		</div>
-		<!-- /container -->
-	</div>
-	<!-- /NEWSLETTER -->
-
 	<!-- FOOTER -->
 	<footer id="footer">
 		<!-- top footer -->
@@ -467,15 +419,11 @@ $query2 = mysqli_query($con, $sqlpd)
 							<ul class="footer-links">
 								<li>
 									<a href="#">
-										<i class="fa fa-map-marker"></i>1734 Stonecoal Road</a>
+										<i class="fa fa-map-marker"></i>69/186 เมืองใหม่ 6 ซอย 1 ตำบล คลองแห อำเภอ หาดใหญ่ สงขลา 90110</a>
 								</li>
 								<li>
 									<a href="#">
-										<i class="fa fa-phone"></i>+021-95-51-84</a>
-								</li>
-								<li>
-									<a href="#">
-										<i class="fa fa-envelope-o"></i>email@email.com</a>
+										<i class="fa fa-phone"></i>074 446 983</a>
 								</li>
 							</ul>
 						</div>

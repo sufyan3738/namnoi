@@ -49,10 +49,9 @@ require 'connect.php';
 		<!-- TOP HEADER -->
 		<div id="top-header">
 			<div class="container">
-				<ul class="header-links pull-left">
-					<li><a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a></li>
-					<li><a href="#"><i class="fa fa-envelope-o"></i> email@email.com</a></li>
-					<li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
+			<ul class="header-links pull-left">
+					<li><a href="#"><i class="fa fa-phone"></i> 074 446 983</a></li>
+					<li><a href="#"><i class="fa fa-map-marker"></i> 69/186 เมืองใหม่ 6 ซอย 1 ตำบล คลองแห อำเภอ หาดใหญ่ สงขลา 90110</a></li>
 				</ul>
 
 				<!-- ปุ่ม login logout -->
@@ -82,7 +81,7 @@ require 'connect.php';
 					$_SESSION['c_name'] = $Result['c_name'];
 					?>
 						<li>
-						<a href="#">
+						<a href="profile.php">
 						<i class="fa fa-user-o"></i><?php echo $Result['c_name']; ?></a>
 						</li>
 						<li>
@@ -240,7 +239,7 @@ require 'connect.php';
 			<div id="responsive-nav">
 				<!-- NAV -->
 				<ul class="main-nav nav navbar-nav">
-					<li class="active">
+					<li>
 						<a href="index.php">Home</a>
 					</li>
 					<li>
@@ -268,8 +267,8 @@ require 'connect.php';
 					<div class="col-md-12">
 						<h3 class="breadcrumb-header"><?php echo $Result['c_name']; ?></h3>
 						<ul class="breadcrumb-tree">
-							<li class="active">Profile</li>
-							<li><a href="insearchp.php">คำสั่งซื้อ</a></li>
+							<li class="active"><a href="#">Profile</a></li>
+							<li><a href="view_order.php">คำสั่งซื้อ</a></li>
 						</ul>
 					</div>
 				</div>
@@ -289,25 +288,25 @@ require 'connect.php';
 						<!-- Billing Details -->
 						<div class="billing-details">
 							<div class="form-group">ชื่อ-สกุล
-								<input class="input" type="text" name="name" placeholder="<?php echo $Result['c_name']; ?>">
+								<input class="input" type="text" name="name" placeholder="<?php echo $Result['c_name']; ?>" disabled>
 							</div>							
 							<div class="form-group">ที่อยู่
-								<input class="input" type="text" name="address" placeholder="<?php echo $Result['c_address']; ?>">
+								<input class="input" type="text" name="address" placeholder="<?php echo $Result['c_address']; ?>" disabled>
 							</div>
 							<div class="form-group">ตำบล
-								<input class="input" type="text" name="district" placeholder="<?php echo $Result['c_district']; ?>">
+								<input class="input" type="text" name="district" placeholder="<?php echo $Result['c_district']; ?>" disabled>
 							</div>
 							<div class="form-group">อำเภอ
-								<input class="input" type="text" name="amphur" placeholder="<?php echo $Result['c_amphur']; ?>">
+								<input class="input" type="text" name="amphur" placeholder="<?php echo $Result['c_amphur']; ?>" disabled>
 							</div>
 							<div class="form-group">จังหวัด
-								<input class="input" type="text" name="province" placeholder="<?php echo $Result['c_province']; ?>">
+								<input class="input" type="text" name="province" placeholder="<?php echo $Result['c_province']; ?>" disabled>
 							</div>
 							<div class="form-group">รหัสไปรษณีย์
-								<input class="input" type="text" name="zip-code" placeholder="<?php echo $Result['c_zip_code']; ?>">
+								<input class="input" type="text" name="zip-code" placeholder="<?php echo $Result['c_zip_code']; ?>" disabled>
 							</div>
 							<div class="form-group">เบอร์โทรศัพท์
-								<input class="input" type="tel" name="tel" placeholder="<?php echo $Result['c_phone']; ?>">
+								<input class="input" type="tel" name="tel" placeholder="<?php echo $Result['c_phone']; ?>" disabled>
 							</div>
 						</div>
 						<div class="add-to-cart">
@@ -325,53 +324,6 @@ require 'connect.php';
 	</div>
 	<!-- /SECTION -->
 
-	<!-- NEWSLETTER -->
-	<div id="newsletter" class="section">
-		<!-- container -->
-		<div class="container">
-			<!-- row -->
-			<div class="row">
-				<div class="col-md-12">
-					<div class="newsletter">
-						<p>Sign Up for the
-							<strong>NEWSLETTER</strong>
-						</p>
-						<form>
-							<input class="input" type="email" placeholder="Enter Your Email">
-							<button class="newsletter-btn">
-								<i class="fa fa-envelope"></i> Subscribe</button>
-						</form>
-						<ul class="newsletter-follow">
-							<li>
-								<a href="#">
-									<i class="fa fa-facebook"></i>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<i class="fa fa-twitter"></i>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<i class="fa fa-instagram"></i>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<i class="fa fa-pinterest"></i>
-								</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<!-- /row -->
-		</div>
-		<!-- /container -->
-	</div>
-	<!-- /NEWSLETTER -->
-
 	<!-- FOOTER -->
 	<footer id="footer">
 		<!-- top footer -->
@@ -385,17 +337,13 @@ require 'connect.php';
 							<h3 class="footer-title">About Us</h3>
 							<p>เว็บไซต์ขายของออนไลน์ของกลุ่มวิสาหกิจชุมชน ต.น้ำน้อย</p>
 							<ul class="footer-links">
-								<li>
+							<li>
 									<a href="#">
-										<i class="fa fa-map-marker"></i>1734 Stonecoal Road</a>
+										<i class="fa fa-map-marker"></i>69/186 เมืองใหม่ 6 ซอย 1 ตำบล คลองแห อำเภอ หาดใหญ่ สงขลา 90110</a>
 								</li>
 								<li>
 									<a href="#">
-										<i class="fa fa-phone"></i>+021-95-51-84</a>
-								</li>
-								<li>
-									<a href="#">
-										<i class="fa fa-envelope-o"></i>email@email.com</a>
+										<i class="fa fa-phone"></i>074 446 983</a>
 								</li>
 							</ul>
 						</div>

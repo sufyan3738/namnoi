@@ -49,10 +49,9 @@ require 'connect.php';
 		<!-- TOP HEADER -->
 		<div id="top-header">
 			<div class="container">
-				<ul class="header-links pull-left">
-					<li><a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a></li>
-					<li><a href="#"><i class="fa fa-envelope-o"></i> email@email.com</a></li>
-					<li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
+			<ul class="header-links pull-left">
+					<li><a href="#"><i class="fa fa-phone"></i> 074 446 983</a></li>
+					<li><a href="#"><i class="fa fa-map-marker"></i> 69/186 เมืองใหม่ 6 ซอย 1 ตำบล คลองแห อำเภอ หาดใหญ่ สงขลา 90110</a></li>
 				</ul>
 
 				<!-- ปุ่ม login logout -->
@@ -82,7 +81,7 @@ require 'connect.php';
 					$_SESSION['c_name'] = $Result['c_name'];
 					?>
 						<li>
-						<a href="#">
+						<a href="profile.php">
 						<i class="fa fa-user-o"></i><?php echo $Result['c_name']; ?></a>
 						</li>
 						<li>
@@ -141,9 +140,23 @@ require 'connect.php';
 						</div>
 					</div>
 					<!-- /LOGO -->
+					<div class="col-md-1"></div>
 
 					<!-- SEARCH BAR -->
-					<div class="col-md-6">
+					<?php
+					$Keyword = null;
+					if (isset($_POST["Keyword"])) {
+					$Keyword = $_POST["Keyword"];
+					}
+					?>
+
+					<div class="col-md-5">
+						<div class="header-search">
+							<form method="post" action="<?php echo $_SERVER['SCRIPT_NAME']; ?>">
+								<input class="input" name="Keyword" type="text" id="Keyword" value="<?php echo $Keyword; ?>">
+								<button class="search-btn">Search</button>
+							</form>
+						</div>
 					</div>
 					<!-- /SEARCH BAR -->
 
@@ -240,13 +253,13 @@ require 'connect.php';
 			<div id="responsive-nav">
 				<!-- NAV -->
 				<ul class="main-nav nav navbar-nav">
-					<li class="active">
+					<li>
 						<a href="index.php">Home</a>
 					</li>
 					<li>
 						<a href="allproduct.php">สินค้า</a>
 					</li>
-					<li>
+					<li class="active">
 						<a href="searchorder.php">ค้นหาคำสั่งซื้อ</a>
 					</li>
 
@@ -258,14 +271,47 @@ require 'connect.php';
 		<!-- /container -->
 	</nav>
 	<!-- /NAVIGATION -->
-
+		
 	<!-- SECTION -->
 	<div class="section">
 		<!-- container -->
 		<div class="container">
 			<!-- row -->
 			<div class="row">
+			<div class="col-md-12">
+						<h3 class="breadcrumb-header">คำสั่งซื้อ</h3>						
+						<div class="container"> 		
+												
+						<?php
+						$o_sql = "SELECT * FROM orders WHERE o_id LIKE '%".$Keyword."%' ";
+						$o_query = mysqli_query($con,$o_sql);
+						?>
 
+							<table class="table table-bordered">
+									<br>
+								<thead>
+									<tr>
+										<th>เลขที่ใบสั่งซื้อ</th>
+										<th>วันที่สั่งซื้อ</th>
+										<th>เรียกดู</th>
+									</tr>
+								 </thead>
+									<tbody>
+									<?php
+									while($o_result=mysqli_fetch_array($o_query,MYSQLI_ASSOC)){
+									?>
+										<tr>
+											<td><?=$o_result["o_id"];?></td>
+											<td><?=$o_result["date_time"];?></td>
+											<td><a href="view_order_detail.php?OrderID=<?=$o_result["o_id"];?>"> รายละเอียด</a></td>
+										</tr>
+										<?php
+										}
+									?>
+									</tbody>
+							</table>
+						</div>
+					</div>
 
 			</div>
 			<!-- /row -->
@@ -273,53 +319,6 @@ require 'connect.php';
 		<!-- /container -->
 	</div>
 	<!-- /SECTION -->
-
-	<!-- NEWSLETTER -->
-	<div id="newsletter" class="section">
-		<!-- container -->
-		<div class="container">
-			<!-- row -->
-			<div class="row">
-				<div class="col-md-12">
-					<div class="newsletter">
-						<p>Sign Up for the
-							<strong>NEWSLETTER</strong>
-						</p>
-						<form>
-							<input class="input" type="email" placeholder="Enter Your Email">
-							<button class="newsletter-btn">
-								<i class="fa fa-envelope"></i> Subscribe</button>
-						</form>
-						<ul class="newsletter-follow">
-							<li>
-								<a href="#">
-									<i class="fa fa-facebook"></i>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<i class="fa fa-twitter"></i>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<i class="fa fa-instagram"></i>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<i class="fa fa-pinterest"></i>
-								</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<!-- /row -->
-		</div>
-		<!-- /container -->
-	</div>
-	<!-- /NEWSLETTER -->
 
 	<!-- FOOTER -->
 	<footer id="footer">
@@ -334,17 +333,13 @@ require 'connect.php';
 							<h3 class="footer-title">About Us</h3>
 							<p>เว็บไซต์ขายของออนไลน์ของกลุ่มวิสาหกิจชุมชน ต.น้ำน้อย</p>
 							<ul class="footer-links">
-								<li>
+							<li>
 									<a href="#">
-										<i class="fa fa-map-marker"></i>1734 Stonecoal Road</a>
+										<i class="fa fa-map-marker"></i>69/186 เมืองใหม่ 6 ซอย 1 ตำบล คลองแห อำเภอ หาดใหญ่ สงขลา 90110</a>
 								</li>
 								<li>
 									<a href="#">
-										<i class="fa fa-phone"></i>+021-95-51-84</a>
-								</li>
-								<li>
-									<a href="#">
-										<i class="fa fa-envelope-o"></i>email@email.com</a>
+										<i class="fa fa-phone"></i>074 446 983</a>
 								</li>
 							</ul>
 						</div>

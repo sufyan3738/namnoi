@@ -3,37 +3,37 @@ session_start();
 
 require 'connect.php';
 
-// เพิ่มข้อมูลลงใน customer
-$csql = "INSERT INTO customer (c_name,c_email,c_address,c_district,c_amphur,c_province,c_zip_code,c_phone)
-VALUE ('".$_POST["name"]."','".$_POST["email"]."','".$_POST["address"]."','".$_POST["district"]."','".$_POST["amphur"]."','".$_POST["province"]."','".$_POST["zip-code"]."','".$_POST["tel"]."')";
-$cquery = mysqli_query($con,$csql);
-if(!$cquery)
-{
-echo $con->error;
-exit();
-}
-	$c_sql = "SELECT * FROM customer ORDER BY c_id DESC LIMIT 1";
-	$c_query = mysqli_query($con,$c_sql);
-	$c_result = mysqli_fetch_array($c_query,MYSQLI_ASSOC);
-// เพิ่มข้อมูลลงใน identity
-if (isset($_POST["password"])){
+// // เพิ่มข้อมูลลงใน customer
+// $csql = "INSERT INTO customer (c_name,c_email,c_address,c_district,c_amphur,c_province,c_zip_code,c_phone)
+// VALUE ('".$_POST["name"]."','".$_POST["email"]."','".$_POST["address"]."','".$_POST["district"]."','".$_POST["amphur"]."','".$_POST["province"]."','".$_POST["zip-code"]."','".$_POST["tel"]."')";
+// $cquery = mysqli_query($con,$csql);
+// if(!$cquery)
+// {
+// echo $con->error;
+// exit();
+// }
+// 	$c_sql = "SELECT * FROM customer ORDER BY c_id DESC LIMIT 1";
+// 	$c_query = mysqli_query($con,$c_sql);
+// 	$c_result = mysqli_fetch_array($c_query,MYSQLI_ASSOC);
+// // เพิ่มข้อมูลลงใน identity
+// if (isset($_POST["password"])){
 
-	//เข้ารหัส รหัสผ่าน
-	$password = $_POST["password"];
-	$salt = 'ecom4cluster';
-	$has_password = hash_hmac('sha256', $password, $salt);
+// 	//เข้ารหัส รหัสผ่าน
+// 	$password = $_POST["password"];
+// 	$salt = 'ecom4cluster';
+// 	$has_password = hash_hmac('sha256', $password, $salt);
 					
-	$isql = "INSERT INTO identity (iden_id,username,password,type) 
-	VALUE ('".$c_result["c_id"]."','".$c_result["c_email"]."','$has_password','".$c_result["u_type"]."')";
-	$iquery = mysqli_query($con,$isql);
-	if(!$iquery)
-	{
-	echo $con->error;
-	exit();
-	}
-}else{
+// 	$isql = "INSERT INTO identity (iden_id,username,password,type) 
+// 	VALUE ('".$c_result["c_id"]."','".$c_result["c_email"]."','$has_password','".$c_result["u_type"]."')";
+// 	$iquery = mysqli_query($con,$isql);
+// 	if(!$iquery)
+// 	{
+// 	echo $con->error;
+// 	exit();
+// 	}
+// }else{
 
-}
+// }
 
 
 
@@ -42,7 +42,7 @@ if (isset($_POST["password"])){
 	
 	// เพิ่มข้อมูลลงใน orders
   $strSQL = "INSERT INTO orders (date_time,c_id,total_price,shipping_cost)
-	VALUE ('".date("Y-m-d H:i:s")."','".$c_result["c_id"]."','".$_SESSION["lasttotal"]."','".$_SESSION["e_price"]."')";
+	VALUE ('".date("Y-m-d H:i:s")."','".$_SESSION["c_id"]."','".$_SESSION["lasttotal"]."','".$_SESSION["e_price"]."')";
   $objQuery = mysqli_query($con,$strSQL);
   if(!$objQuery)
   {
@@ -103,5 +103,5 @@ session_destroy();
 echo "<script>";
 echo "alert(\"สั่งซื้อเรียบร้อยแล้ว\");";
 echo "</script>";
-header("location:view_order_detail.php?OrderID=".$strOrderID);
+header("location:view_order.php?OrderID=".$strOrderID);
 ?>
