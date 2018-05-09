@@ -303,7 +303,7 @@ require 'connect.php';
 										<tr>
 											<td><?=$o_result["o_id"];?></td>
 											<td><?=$o_result["date_time"];?></td>
-											<td><a href="view_order_detail.php?OrderID=<?=$o_result["o_id"];?>"> รายละเอียด</a></td>
+											<td><a href="view_order_detail.php?OrderID=<?=$o_result["o_id"];?>" target="_blank"> รายละเอียด</a></td>
 										</tr>
 										<?php
 										}
